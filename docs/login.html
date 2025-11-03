@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a2332">
+  <title>Login - Rede de Influencers</title>
+  <meta name="description" content="Faça login na Rede de Influencers e gerencie suas propostas e parcerias.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #1a2332;
+      --bg-secondary: #2c3e50;
+      --bg-card: #273142;
+      --primary: #00D4AA;
+      --primary-light: #33DDB8;
+      --primary-dark: #00A885;
+      --secondary: #0EA5E9;
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-muted: #94A3B8;
+      --border: #3f5266;
+      --error: #EF4444;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-container img {
+      height: 80px;
+      width: auto;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      background: var(--bg-primary);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.25rem;
+      padding: 0.25rem;
+      transition: color 0.2s;
+    }
+
+    .toggle-password:active {
+      color: var(--primary);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .remember-me label {
+      margin: 0;
+      font-weight: 400;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .forgot-password:active {
+      color: var(--primary-light);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+      background: var(--primary-light);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      padding: 0 1rem;
+    }
+
+    .social-login {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn-social {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--bg-primary);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .btn-social:active {
+      transform: scale(0.98);
+      border-color: var(--primary);
+    }
+
+    .btn-social-icon {
+      font-size: 1.25rem;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .signup-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .signup-link a:active {
+      color: var(--primary-light);
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .back-home a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+
+    .back-home a:active {
+      color: var(--primary);
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border: 2px solid var(--error);
+      color: var(--error);
+      padding: 0.875rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(0, 212, 170, 0.1);
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 0.875rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+
+    /* iOS Specific */
+    @supports (-webkit-touch-callout: none) {
+      body {
+        min-height: -webkit-fill-available;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .login-container {
+        padding: 2rem 1.5rem;
+      }
+
+      .logo-container img {
+        height: 70px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .login-container {
+        margin: 1rem 0;
+      }
+
+      .logo-container {
+        margin-bottom: 1.5rem;
+      }
+
+      .logo-container img {
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Rede de Influencers">
+    </div>
+
+    <h1>Bem-vindo de Volta</h1>
+    <p class="subtitle">Faça login para acessar sua conta</p>
+
+    <div id="errorMessage" class="error-message">
+      Email ou senha incorretos. Tente novamente.
+    </div>
+
+    <div id="successMessage" class="success-message">
+      Login realizado com sucesso! Redirecionando...
+    </div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          required 
+          placeholder="seu@email.com"
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <div class="password-container">
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required 
+            placeholder="••••••••"
+            autocomplete="current-password"
+          >
+          <button type="button" class="toggle-password" id="togglePassword">
+            👁️
+          </button>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Lembrar de mim</label>
+        </div>
+        <a href="#" class="forgot-password">Esqueci a senha</a>
+      </div>
+
+      <button type="submit" class="btn-primary">Entrar</button>
+    </form>
+
+    <div class="divider">
+      <span>ou continue com</span>
+    </div>
+
+    <div class="social-login">
+      <button class="btn-social" onclick="socialLogin('google')">
+        <span class="btn-social-icon">🔍</span>
+        <span>Continuar com Google</span>
+      </button>
+
+      <button class="btn-social" onclick="socialLogin('facebook')">
+        <span class="btn-social-icon">📘</span>
+        <span>Continuar com Facebook</span>
+      </button>
+
+      <button class="btn-social" onclick="socialLogin('instagram')">
+        <span class="btn-social-icon">📷</span>
+        <span>Continuar com Instagram</span>
+      </button>
+    </div>
+
+    <div class="signup-link">
+      Ainda não tem uma conta? <a href="cadastro-influencer.html">Cadastre-se gratuitamente</a>
+    </div>
+
+    <div class="back-home">
+      <a href="index.html">← Voltar para a página inicial</a>
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+
+    // Form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Hide previous messages
+      document.getElementById('errorMessage').style.display = 'none';
+      document.getElementById('successMessage').style.display = 'none';
+      
+      // Simulate login (in production, this would be an API call)
+      if (email && password.length >= 6) {
+        document.getElementById('successMessage').style.display = 'block';
+        
+        // Simulate redirect after 2 seconds
+        setTimeout(() => {
+          // In production: window.location.href = 'dashboard.html';
+          alert('Login simulado com sucesso!\n\nEmail: ' + email + '\n\nEm produção, você seria redirecionado para o dashboard.');
+        }, 1500);
+      } else {
+        document.getElementById('errorMessage').style.display = 'block';
+      }
+    });
+
+    // Social login
+    function socialLogin(provider) {
+      alert('Login com ' + provider + ' será implementado em breve!\n\nEm produção, isso abriria o fluxo OAuth do ' + provider + '.');
+    }
+
+    // Forgot password
+    document.querySelector('.forgot-password').addEventListener('click', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      
+      if (email) {
+        alert('Link de recuperação enviado para:\n' + email + '\n\nVerifique sua caixa de entrada e spam.');
+      } else {
+        alert('Por favor, digite seu email no campo acima primeiro.');
+        document.getElementById('email').focus();
+      }
+    });
+  </script>
+</body>
+</html>
