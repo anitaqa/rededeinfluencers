@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rede de Influencers - Conectando Marcas e Influenciadores Sustentáveis</title>
+  <meta name="description" content="Plataforma que conecta empresas a influencers verificados, com foco em sustentabilidade e engajamento real.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">
+          <div class="logo-icon">RI</div>
+          <span>Rede de Influencers</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="#buscar" class="nav-link active">Buscar Influencers</a>
+          <a href="#como-funciona" class="nav-link">Como Funciona</a>
+          <a href="#sustentabilidade" class="nav-link">Sustentabilidade</a>
+          <a href="#contato" class="nav-link">Contato</a>
+        </nav>
+        
+        <div class="flex gap-md">
+          <button class="btn btn-ghost">Entrar</button>
+          <button class="btn btn-primary">Cadastrar</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">Conecte sua Marca aos Melhores Influencers</h1>
+      <p class="hero-subtitle">
+        Plataforma inteligente que conecta empresas a influenciadores verificados,
+        com métricas reais de engajamento e compromisso com a sustentabilidade.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg">Buscar Influencers</button>
+        <button class="btn btn-outline btn-lg">Cadastrar como Influencer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value">1.2K+</div>
+          <div class="stat-label">Influencers Verificados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">350+</div>
+          <div class="stat-label">Empresas Parceiras</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5.8M+</div>
+          <div class="stat-label">Alcance Total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">98%</div>
+          <div class="stat-label">Taxa de Satisfação</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Influencers Section -->
+  <section id="buscar" class="section">
+    <div class="container">
+      <div class="text-center mb-xl">
+        <h2>Influencers em Destaque</h2>
+        <p class="text-muted">Perfis verificados com métricas reais de engajamento e sustentabilidade</p>
+      </div>
+
+      <div class="search-bar">
+        <input 
+          type="search" 
+          class="search-input" 
+          placeholder="Buscar por nome, categoria, localização..."
+          aria-label="Buscar influencers"
+        >
+        <button class="btn btn-primary">Buscar</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem; margin-top: 2rem;">
+        <!-- Filters Sidebar -->
+        <aside class="filters" aria-label="Filtros de busca">
+          <div class="filter-group">
+            <h3 class="filter-title">Categoria</h3>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>Moda Sustentável</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Beleza Natural</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Lifestyle</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Alimentação</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Zero Waste</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h3 class="filter-title">Porte</h3>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Nano (1K-10K)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>Micro (10K-100K)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Mid (100K-500K)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Macro (500K-1M)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Mega (1M+)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h3 class="filter-title">Avaliação</h3>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>⭐⭐⭐⭐⭐ 5 Estrelas</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>⭐⭐⭐⭐ 4+ Estrelas</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>⭐⭐⭐ 3+ Estrelas</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h3 class="filter-title">Sustentabilidade</h3>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>Embaixador</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>Ativista</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Engajado</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Consciente</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h3 class="filter-title">Localização</h3>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>São Paulo</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Rio de Janeiro</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Minas Gerais</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>Paraná</span>
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Influencers Grid -->
+        <div>
+          <div class="flex-between mb-lg">
+            <p class="text-muted">Mostrando 3 de 127 influencers</p>
+            <select class="search-input" style="width: auto; padding: 0.5rem 1rem;">
+              <option>Ordenar por: Relevância</option>
+              <option>Maior Engajamento</option>
+              <option>Mais Seguidores</option>
+              <option>Melhor Avaliação</option>
+              <option>Mais Sustentável</option>
+            </select>
+          </div>
+
+          <div class="grid grid-3">
+            <!-- Influencer 1: Giovanna Nader -->
+            <div class="influencer-card">
+              <img 
+                src="images/U3gMbj7qLt8e.jpg" 
+                alt="Giovanna Nader - Influencer de Moda Sustentável"
+                class="influencer-card-image"
+              >
+              <div class="influencer-card-content">
+                <div class="influencer-card-header">
+                  <img 
+                    src="images/Dj3GZifNAG64.png" 
+                    alt="Avatar de Giovanna Nader"
+                    class="influencer-avatar"
+                  >
+                  <div class="influencer-info">
+                    <h3>Giovanna Nader</h3>
+                    <p class="influencer-location">
+                      📍 São Paulo, SP
+                    </p>
+                  </div>
+                </div>
+
+                <div class="influencer-badges">
+                  <span class="badge badge-primary">Moda Sustentável</span>
+                  <span class="badge badge-gold">Embaixador</span>
+                </div>
+
+                <div class="influencer-stats">
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">45.2K</span>
+                    <span class="influencer-stat-label">Seguidores</span>
+                  </div>
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">8.6%</span>
+                    <span class="influencer-stat-label">Engajamento</span>
+                  </div>
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">1.2K</span>
+                    <span class="influencer-stat-label">Posts</span>
+                  </div>
+                </div>
+
+                <div class="flex-between" style="align-items: center;">
+                  <div class="stars" aria-label="5 estrelas">
+                    ⭐⭐⭐⭐⭐
+                  </div>
+                  <span class="text-primary" style="font-weight: 700; font-size: 1.25rem;">100.0</span>
+                </div>
+
+                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                  Especialista em moda consciente e consumo responsável. 
+                  Parceira de marcas sustentáveis e brechós.
+                </p>
+
+                <div class="card-footer">
+                  <button class="btn btn-outline btn-sm" style="flex: 1;">Ver Perfil</button>
+                  <button class="btn btn-primary btn-sm" style="flex: 1;">Enviar Proposta</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Influencer 2: Cristal Muniz (Uma Vida Sem Lixo) -->
+            <div class="influencer-card">
+              <img 
+                src="images/OtdvcSPODmYQ.png" 
+                alt="Cristal Muniz - Influencer Zero Waste"
+                class="influencer-card-image"
+              >
+              <div class="influencer-card-content">
+                <div class="influencer-card-header">
+                  <img 
+                    src="images/OtdvcSPODmYQ.png" 
+                    alt="Avatar de Cristal Muniz"
+                    class="influencer-avatar"
+                    style="object-position: top;"
+                  >
+                  <div class="influencer-info">
+                    <h3>Cristal Muniz</h3>
+                    <p class="influencer-location">
+                      📍 Rio de Janeiro, RJ
+                    </p>
+                  </div>
+                </div>
+
+                <div class="influencer-badges">
+                  <span class="badge badge-success">Zero Waste</span>
+                  <span class="badge badge-gold">Ativista</span>
+                </div>
+
+                <div class="influencer-stats">
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">89.5K</span>
+                    <span class="influencer-stat-label">Seguidores</span>
+                  </div>
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">7.2%</span>
+                    <span class="influencer-stat-label">Engajamento</span>
+                  </div>
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">2.1K</span>
+                    <span class="influencer-stat-label">Posts</span>
+                  </div>
+                </div>
+
+                <div class="flex-between" style="align-items: center;">
+                  <div class="stars" aria-label="5 estrelas">
+                    ⭐⭐⭐⭐⭐
+                  </div>
+                  <span class="text-primary" style="font-weight: 700; font-size: 1.25rem;">98.5</span>
+                </div>
+
+                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                  Criadora do movimento "Uma Vida Sem Lixo". Ensina práticas 
+                  sustentáveis e vida zero waste.
+                </p>
+
+                <div class="card-footer">
+                  <button class="btn btn-outline btn-sm" style="flex: 1;">Ver Perfil</button>
+                  <button class="btn btn-primary btn-sm" style="flex: 1;">Enviar Proposta</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Influencer 3: Aline Matulja (Menos 1 Lixo) -->
+            <div class="influencer-card">
+              <img 
+                src="images/jq3C4MRu2fjZ.jpg" 
+                alt="Aline Matulja - Influencer de Sustentabilidade"
+                class="influencer-card-image"
+              >
+              <div class="influencer-card-content">
+                <div class="influencer-card-header">
+                  <img 
+                    src="images/jq3C4MRu2fjZ.jpg" 
+                    alt="Avatar de Aline Matulja"
+                    class="influencer-avatar"
+                    style="object-position: center 20%;"
+                  >
+                  <div class="influencer-info">
+                    <h3>Aline Matulja</h3>
+                    <p class="influencer-location">
+                      📍 Curitiba, PR
+                    </p>
+                  </div>
+                </div>
+
+                <div class="influencer-badges">
+                  <span class="badge badge-secondary">Lifestyle</span>
+                  <span class="badge badge-gold">Embaixador</span>
+                </div>
+
+                <div class="influencer-stats">
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">62.8K</span>
+                    <span class="influencer-stat-label">Seguidores</span>
+                  </div>
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">9.1%</span>
+                    <span class="influencer-stat-label">Engajamento</span>
+                  </div>
+                  <div class="influencer-stat">
+                    <span class="influencer-stat-value">1.8K</span>
+                    <span class="influencer-stat-label">Posts</span>
+                  </div>
+                </div>
+
+                <div class="flex-between" style="align-items: center;">
+                  <div class="stars" aria-label="5 estrelas">
+                    ⭐⭐⭐⭐⭐
+                  </div>
+                  <span class="text-primary" style="font-weight: 700; font-size: 1.25rem;">100.0</span>
+                </div>
+
+                <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">
+                  Fundadora do projeto Menos 1 Lixo. Ativista ambiental e 
+                  defensora do consumo consciente.
+                </p>
+
+                <div class="card-footer">
+                  <button class="btn btn-outline btn-sm" style="flex: 1;">Ver Perfil</button>
+                  <button class="btn btn-primary btn-sm" style="flex: 1;">Enviar Proposta</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-xl">
+            <button class="btn btn-outline btn-lg">Carregar Mais Influencers</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona -->
+  <section id="como-funciona" class="section bg-white">
+    <div class="container">
+      <div class="text-center mb-xl">
+        <h2>Como Funciona</h2>
+        <p class="text-muted">Processo simples e transparente em 4 passos</p>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+          <h4>1. Buscar</h4>
+          <p class="text-muted">
+            Encontre influencers por categoria, localização, 
+            engajamento e nível de sustentabilidade.
+          </p>
+        </div>
+
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+          <h4>2. Negociar</h4>
+          <p class="text-muted">
+            Envie propostas personalizadas e negocie 
+            valores, prazos e entregas diretamente.
+          </p>
+        </div>
+
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">💳</div>
+          <h4>3. Pagar</h4>
+          <p class="text-muted">
+            Pagamento seguro pela plataforma com 
+            proteção para ambas as partes.
+          </p>
+        </div>
+
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">⭐</div>
+          <h4>4. Avaliar</h4>
+          <p class="text-muted">
+            Avalie a experiência e ajude a melhorar 
+            o ranking dos influencers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sustentabilidade -->
+  <section id="sustentabilidade" class="section">
+    <div class="container">
+      <div class="text-center mb-xl">
+        <h2>Compromisso com a Sustentabilidade</h2>
+        <p class="text-muted">
+          Valorizamos influencers que fazem a diferença no mundo
+        </p>
+      </div>
+
+      <div class="grid grid-2" style="align-items: center;">
+        <div>
+          <h3>Sistema de Níveis Sustentáveis</h3>
+          <p class="text-muted mb-lg">
+            Influencers ganham pontos e benefícios ao promover ações 
+            sustentáveis, criar conteúdo educativo e realizar doações 
+            para causas ambientais.
+          </p>
+
+          <div class="flex-col gap-md">
+            <div class="card">
+              <div class="flex-between">
+                <div>
+                  <h5>🌱 Consciente</h5>
+                  <p class="text-muted mb-0">10-25 pontos • +5 no ranking</p>
+                </div>
+                <span class="badge badge-success">Nível 1</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="flex-between">
+                <div>
+                  <h5>🌿 Engajado</h5>
+                  <p class="text-muted mb-0">26-50 pontos • +10 no ranking</p>
+                </div>
+                <span class="badge badge-primary">Nível 2</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="flex-between">
+                <div>
+                  <h5>🌳 Ativista</h5>
+                  <p class="text-muted mb-0">51-75 pontos • +15 no ranking</p>
+                </div>
+                <span class="badge badge-secondary">Nível 3</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="flex-between">
+                <div>
+                  <h5>🌍 Embaixador</h5>
+                  <p class="text-muted mb-0">76-100 pontos • +25 no ranking</p>
+                </div>
+                <span class="badge badge-gold">Nível 4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Impacto Real</h4>
+          <div class="stats">
+            <div class="stat-card">
+              <div class="stat-value">R$ 2.5M</div>
+              <div class="stat-label">Doações Realizadas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">450+</div>
+              <div class="stat-label">Projetos Apoiados</div>
+            </div>
+          </div>
+          <p class="text-muted mt-lg">
+            Nossa comunidade já impactou positivamente milhares de vidas 
+            através de ações sustentáveis e doações para causas ambientais.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section bg-white">
+    <div class="container text-center">
+      <h2>Pronto para Começar?</h2>
+      <p class="text-muted mb-xl">
+        Junte-se a centenas de empresas e influencers que já fazem parte da nossa rede
+      </p>
+      <div class="flex-center gap-md">
+        <button class="btn btn-primary btn-lg">Cadastrar Empresa</button>
+        <button class="btn btn-secondary btn-lg">Cadastrar como Influencer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Rede de Influencers</h4>
+          <p class="text-muted">
+            Conectando marcas e influenciadores com propósito. 
+            Transparência, sustentabilidade e resultados reais.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Para Empresas</h4>
+          <ul class="footer-links">
+            <li><a href="#">Buscar Influencers</a></li>
+            <li><a href="#">Como Funciona</a></li>
+            <li><a href="#">Planos e Preços</a></li>
+            <li><a href="#">Cases de Sucesso</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Para Influencers</h4>
+          <ul class="footer-links">
+            <li><a href="#">Cadastrar Perfil</a></li>
+            <li><a href="#">Planos de Assinatura</a></li>
+            <li><a href="#">Central de Ajuda</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Empresa</h4>
+          <ul class="footer-links">
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Sustentabilidade</a></li>
+            <li><a href="#">Termos de Uso</a></li>
+            <li><a href="#">Privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Rede de Influencers. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Download Buttons -->
+  <div class="download-section">
+    <button class="download-btn" onclick="downloadHTML()">
+      📄 Download HTML
+    </button>
+    <button class="download-btn" onclick="downloadPDF()">
+      📑 Download PDF
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/download.js"></script>
+</body>
+</html>
