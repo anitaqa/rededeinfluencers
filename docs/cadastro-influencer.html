@@ -374,6 +374,106 @@
         font-size: 0.8125rem;
       }
     }
+
+    /* Upload Area */
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      background: var(--bg-primary);
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-area:hover,
+    .upload-area.drag-over {
+      border-color: var(--primary);
+      background: rgba(0, 212, 170, 0.05);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .upload-text {
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-subtext {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .file-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .file-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-name {
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-meta {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .file-action-btn {
+      padding: 0.5rem;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-size: 1.25rem;
+    }
+
+    .file-action-btn:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .file-action-btn.delete:hover {
+      color: var(--error);
+    }
   </style>
 </head>
 <body>
@@ -587,6 +687,19 @@
           <p class="help-text">Valor base para um vídeo patrocinado</p>
         </div>
 
+        <!-- Portfólio -->
+        <div class="section-title">Portfólio</div>
+        <p class="help-text" style="margin-bottom: 1rem;">Adicione fotos, vídeos ou PDFs do seu trabalho (opcional)</p>
+
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">📁</div>
+          <p class="upload-text">Arraste arquivos aqui ou clique para selecionar</p>
+          <p class="upload-subtext">Suporta: PDF, JPG, PNG, MP4 (máx. 10MB por arquivo)</p>
+          <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.mp4" style="display: none;">
+        </div>
+
+        <div id="fileList" class="file-list"></div>
+
         <!-- Termos -->
         <div class="checkbox-group">
           <input type="checkbox" id="termos" name="termos" required>
@@ -698,6 +811,97 @@
 
     moneyMask(document.getElementById('valor-post'));
     moneyMask(document.getElementById('valor-video'));
+
+    // File upload functionality
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    let uploadedFiles = [];
+
+    // Click to upload
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    // Drag and drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('drag-over');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('drag-over');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('drag-over');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    // File input change
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      Array.from(files).forEach(file => {
+        // Validate file size (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+          alert(`Arquivo "${file.name}" é muito grande. Máximo: 10MB`);
+          return;
+        }
+
+        // Validate file type
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'video/mp4'];
+        if (!validTypes.includes(file.type)) {
+          alert(`Tipo de arquivo "${file.name}" não suportado.`);
+          return;
+        }
+
+        uploadedFiles.push(file);
+        addFileToList(file);
+      });
+    }
+
+    function addFileToList(file) {
+      const fileItem = document.createElement('div');
+      fileItem.className = 'file-item';
+
+      const icon = getFileIcon(file.type);
+      const size = formatFileSize(file.size);
+
+      fileItem.innerHTML = `
+        <div class="file-icon">${icon}</div>
+        <div class="file-info">
+          <div class="file-name">${file.name}</div>
+          <div class="file-meta">${size}</div>
+        </div>
+        <div class="file-actions">
+          <button type="button" class="file-action-btn delete" onclick="removeFile(this, '${file.name}')">🗑️</button>
+        </div>
+      `;
+
+      fileList.appendChild(fileItem);
+    }
+
+    function getFileIcon(type) {
+      if (type.includes('pdf')) return '📄';
+      if (type.includes('image')) return '🖼️';
+      if (type.includes('video')) return '🎥';
+      return '📁';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    window.removeFile = function(button, fileName) {
+      uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+      button.closest('.file-item').remove();
+    };
   </script>
 </body>
 </html>
