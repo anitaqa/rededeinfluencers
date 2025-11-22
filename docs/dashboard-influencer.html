@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a2332">
+  <title>Dashboard - Rede de Influencers</title>
+  <meta name="description" content="Gerencie seu perfil, propostas e portfólio na Rede de Influencers.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #1a2332;
+      --bg-dark-secondary: #2c3e50;
+      --bg-light: #F8FAFC;
+      --bg-white: #FFFFFF;
+      --primary: #00D4AA;
+      --primary-light: #33DDB8;
+      --secondary: #0EA5E9;
+      --text-dark: #1E293B;
+      --text-light: #F8FAFC;
+      --text-muted: #64748B;
+      --border-light: #E2E8F0;
+      --border-dark: #3f5266;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --error: #EF4444;
+      --info: #3B82F6;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.3s;
+    }
+
+    .sidebar-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .sidebar-logo img {
+      height: 50px;
+      width: auto;
+      margin-bottom: 1rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--bg-dark);
+    }
+
+    .user-details h3 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      margin-bottom: 0.125rem;
+    }
+
+    .user-details p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s;
+      font-size: 0.9375rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--primary);
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-dark);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+    }
+
+    .topbar {
+      background: var(--bg-white);
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .topbar h1 {
+      font-size: 1.5rem;
+      color: var(--text-dark);
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.625rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--bg-dark);
+    }
+
+    .btn-primary:active {
+      background: var(--primary-light);
+      transform: scale(0.98);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:active {
+      background: var(--primary);
+      color: var(--bg-dark);
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--bg-white);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .stat-icon.primary {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--primary);
+    }
+
+    .stat-icon.secondary {
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--secondary);
+    }
+
+    .stat-icon.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .stat-icon.warning {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .stat-change {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .stat-change.positive {
+      color: var(--success);
+    }
+
+    .stat-change.negative {
+      color: var(--error);
+    }
+
+    /* Content Cards */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .card-action {
+      font-size: 0.875rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Proposals List */
+    .proposal-item {
+      padding: 1rem;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+
+    .proposal-item:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-color: var(--primary);
+    }
+
+    .proposal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .proposal-company {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 0.9375rem;
+    }
+
+    .proposal-value {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.125rem;
+    }
+
+    .proposal-description {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .proposal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .proposal-date {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge.pending {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .badge.accepted {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .badge.rejected {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+
+    /* Upload Section */
+    .upload-area {
+      border: 2px dashed var(--border-light);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-area:hover {
+      border-color: var(--primary);
+      background: rgba(0, 212, 170, 0.02);
+    }
+
+    .upload-area.dragover {
+      border-color: var(--primary);
+      background: rgba(0, 212, 170, 0.05);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .upload-text {
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-hint {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    /* File List */
+    .file-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .file-item:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: var(--bg-light);
+    }
+
+    .file-info {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .file-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    .btn-icon.delete:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--bg-dark);
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 212, 170, 0.4);
+      z-index: 101;
+    }
+
+    /* iOS Specific */
+    @supports (-webkit-touch-callout: none) {
+      body {
+        min-height: -webkit-fill-available;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+
+      .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <img src="images/logo.png" alt="Rede de Influencers">
+        </div>
+        <div class="user-info">
+          <div class="user-avatar">AN</div>
+          <div class="user-details">
+            <h3>Ana Silva</h3>
+            <p>Influencer</p>
+          </div>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="sidebar-nav">
+          <li class="nav-item">
+            <a href="#dashboard" class="nav-link active">
+              <span class="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#propostas" class="nav-link">
+              <span class="nav-icon">💼</span>
+              <span>Propostas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#portfolio" class="nav-link">
+              <span class="nav-icon">🎨</span>
+              <span>Portfólio</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#perfil" class="nav-link">
+              <span class="nav-icon">👤</span>
+              <span>Meu Perfil</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#financeiro" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Financeiro</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#sustentabilidade" class="nav-link">
+              <span class="nav-icon">🌱</span>
+              <span>Sustentabilidade</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#configuracoes" class="nav-link">
+              <span class="nav-icon">⚙️</span>
+              <span>Configurações</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">🚪</span>
+          <span>Sair</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <div class="topbar">
+        <h1>Bem-vinda, Ana!</h1>
+        <div class="topbar-actions">
+          <button class="btn btn-outline">Ver Meu Perfil Público</button>
+          <button class="btn btn-primary">Editar Perfil</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">12</div>
+              <div class="stat-label">Propostas Ativas</div>
+              <div class="stat-change positive">↑ 3 novas hoje</div>
+            </div>
+            <div class="stat-icon primary">💼</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">45.2K</div>
+              <div class="stat-label">Total de Seguidores</div>
+              <div class="stat-change positive">↑ 8.5% este mês</div>
+            </div>
+            <div class="stat-icon secondary">📈</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">8.6%</div>
+              <div class="stat-label">Taxa de Engajamento</div>
+              <div class="stat-change positive">↑ 1.2%</div>
+            </div>
+            <div class="stat-icon success">⭐</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">R$ 12.5K</div>
+              <div class="stat-label">Receita este Mês</div>
+              <div class="stat-change positive">↑ 23%</div>
+            </div>
+            <div class="stat-icon warning">💰</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Proposals -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Propostas Recentes</h2>
+            <a href="#" class="card-action">Ver todas →</a>
+          </div>
+
+          <div class="proposal-item">
+            <div class="proposal-header">
+              <div>
+                <div class="proposal-company">EcoFashion Brasil</div>
+                <div class="proposal-description">Campanha de lançamento da coleção verão sustentável</div>
+              </div>
+              <div class="proposal-value">R$ 3.500</div>
+            </div>
+            <div class="proposal-footer">
+              <div class="proposal-date">Há 2 horas</div>
+              <span class="badge pending">Pendente</span>
+            </div>
+          </div>
+
+          <div class="proposal-item">
+            <div class="proposal-header">
+              <div>
+                <div class="proposal-company">Beleza Natural Co.</div>
+                <div class="proposal-description">3 posts + 5 stories sobre linha de cosméticos veganos</div>
+              </div>
+              <div class="proposal-value">R$ 2.800</div>
+            </div>
+            <div class="proposal-footer">
+              <div class="proposal-date">Ontem</div>
+              <span class="badge pending">Pendente</span>
+            </div>
+          </div>
+
+          <div class="proposal-item">
+            <div class="proposal-header">
+              <div>
+                <div class="proposal-company">GreenTech Innovations</div>
+                <div class="proposal-description">Review de produto sustentável + unboxing</div>
+              </div>
+              <div class="proposal-value">R$ 1.500</div>
+            </div>
+            <div class="proposal-footer">
+              <div class="proposal-date">Há 3 dias</div>
+              <span class="badge accepted">Aceita</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Ranking</h2>
+          </div>
+
+          <div style="text-align: center; padding: 1rem 0;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">⭐⭐⭐⭐⭐</div>
+            <div style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">100.0</div>
+            <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;">Score Total</div>
+            
+            <div style="background: var(--bg-light); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+              <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Nível de Sustentabilidade</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                <span style="font-size: 1.5rem;">🌱</span>
+                <span style="font-weight: 700; color: var(--success);">Embaixador</span>
+              </div>
+            </div>
+
+            <div style="font-size: 0.8125rem; color: var(--text-muted);">
+              Você está no <strong style="color: var(--primary);">Top 5%</strong> dos influencers
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portfolio Upload -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Meu Portfólio</h2>
+          <span class="card-action">12 arquivos</span>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.mp4">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">Arraste arquivos aqui ou clique para selecionar</div>
+          <div class="upload-hint">Suporta: PDF, JPG, PNG, MP4 (máx. 10MB por arquivo)</div>
+        </div>
+
+        <div class="file-list" id="fileList">
+          <!-- Example files -->
+          <div class="file-item">
+            <div class="file-icon">📄</div>
+            <div class="file-info">
+              <div class="file-name">Media Kit - Ana Silva.pdf</div>
+              <div class="file-meta">2.3 MB • Enviado há 2 dias</div>
+            </div>
+            <div class="file-actions">
+              <button class="btn-icon" title="Visualizar">👁️</button>
+              <button class="btn-icon" title="Download">⬇️</button>
+              <button class="btn-icon delete" title="Excluir">🗑️</button>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-icon">🖼️</div>
+            <div class="file-info">
+              <div class="file-name">Campanha_EcoFashion_01.jpg</div>
+              <div class="file-meta">1.8 MB • Enviado há 5 dias</div>
+            </div>
+            <div class="file-actions">
+              <button class="btn-icon" title="Visualizar">👁️</button>
+              <button class="btn-icon" title="Download">⬇️</button>
+              <button class="btn-icon delete" title="Excluir">🗑️</button>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-icon">🎥</div>
+            <div class="file-info">
+              <div class="file-name">Review_Produto_Sustentavel.mp4</div>
+              <div class="file-meta">8.5 MB • Enviado há 1 semana</div>
+            </div>
+            <div class="file-actions">
+              <button class="btn-icon" title="Visualizar">👁️</button>
+              <button class="btn-icon" title="Download">⬇️</button>
+              <button class="btn-icon delete" title="Excluir">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      menuToggle.textContent = sidebar.classList.contains('active') ? '✕' : '☰';
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidebar.classList.remove('active');
+          menuToggle.textContent = '☰';
+        }
+      }
+    });
+
+    // File upload functionality
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+
+    uploadArea.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      Array.from(files).forEach(file => {
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+          alert(`Arquivo ${file.name} é muito grande. Máximo 10MB.`);
+          return;
+        }
+
+        // Validate file type
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'video/mp4'];
+        if (!validTypes.includes(file.type)) {
+          alert(`Tipo de arquivo ${file.name} não suportado.`);
+          return;
+        }
+
+        // Add file to list
+        addFileToList(file);
+      });
+    }
+
+    function addFileToList(file) {
+      const fileItem = document.createElement('div');
+      fileItem.className = 'file-item';
+
+      const icon = getFileIcon(file.type);
+      const size = formatFileSize(file.size);
+
+      fileItem.innerHTML = `
+        <div class="file-icon">${icon}</div>
+        <div class="file-info">
+          <div class="file-name">${file.name}</div>
+          <div class="file-meta">${size} • Enviando...</div>
+        </div>
+        <div class="file-actions">
+          <button class="btn-icon" title="Visualizar">👁️</button>
+          <button class="btn-icon" title="Download">⬇️</button>
+          <button class="btn-icon delete" title="Excluir" onclick="this.closest('.file-item').remove()">🗑️</button>
+        </div>
+      `;
+
+      fileList.insertBefore(fileItem, fileList.firstChild);
+
+      // Simulate upload
+      setTimeout(() => {
+        fileItem.querySelector('.file-meta').textContent = `${size} • Enviado agora`;
+      }, 1500);
+    }
+
+    function getFileIcon(type) {
+      if (type.includes('pdf')) return '📄';
+      if (type.includes('image')) return '🖼️';
+      if (type.includes('video')) return '🎥';
+      return '📁';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round(bytes / Math.pow(k, i) * 10) / 10 + ' ' + sizes[i];
+    }
+
+    // Navigation active state
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        if (this.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
