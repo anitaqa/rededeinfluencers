@@ -782,10 +782,16 @@
             
             <div style="background: var(--bg-light); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
               <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Nível de Sustentabilidade</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                <span style="font-size: 1.5rem;">🌱</span>
-                <span style="font-weight: 700; color: var(--success);">Embaixador</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;" id="sustainabilityBadge">
+                <span style="font-size: 1.5rem;" id="sustainabilityIcon">🌱</span>
+                <span style="font-weight: 700; color: var(--success);" id="sustainabilityLevel">Embaixador</span>
               </div>
+              <div style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-muted);" id="sustainabilityScore">Pontuação: 33/33</div>
+            </div>
+            
+            <div id="noPesquisa" style="display: none; background: rgba(14, 165, 233, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+              <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.75rem;">Você ainda não respondeu a pesquisa de sustentabilidade</div>
+              <a href="pesquisa-sustentabilidade.html" style="display: inline-block; background: var(--secondary); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600; text-decoration: none;">Responder Agora</a>
             </div>
 
             <div style="font-size: 0.8125rem; color: var(--text-muted);">
@@ -978,6 +984,34 @@
         }
       });
     });
+    
+    // Carregar dados da pesquisa de sustentabilidade
+    function loadSustainabilityData() {
+      const score = localStorage.getItem('sustainabilityScore');
+      const level = localStorage.getItem('sustainabilityLevel');
+      
+      const iconMap = {
+        'Iniciante': '🌱',
+        'Consciente': '🌿',
+        'Engajado': '💚',
+        'Ativista': '🌟',
+        'Embaixador': '👑'
+      };
+      
+      if (score && level) {
+        document.getElementById('sustainabilityIcon').textContent = iconMap[level] || '🌱';
+        document.getElementById('sustainabilityLevel').textContent = level;
+        document.getElementById('sustainabilityScore').textContent = `Pontuação: ${score}/33`;
+        document.getElementById('sustainabilityBadge').parentElement.style.display = 'block';
+        document.getElementById('noPesquisa').style.display = 'none';
+      } else {
+        document.getElementById('sustainabilityBadge').parentElement.style.display = 'none';
+        document.getElementById('noPesquisa').style.display = 'block';
+      }
+    }
+    
+    // Carregar ao iniciar
+    loadSustainabilityData();
   </script>
 </body>
 </html>
