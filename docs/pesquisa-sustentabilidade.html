@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a2332">
+  <title>Pesquisa de Sustentabilidade e DEI - Rede de Influencers</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #1a2332;
+      --bg-dark-secondary: #273142;
+      --bg-light: #F8FAFC;
+      --bg-white: #FFFFFF;
+      --primary: #00D4AA;
+      --secondary: #0EA5E9;
+      --text-dark: #1E293B;
+      --text-light: #F8FAFC;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --error: #EF4444;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-secondary) 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .logo {
+      height: 60px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .progress-bar {
+      background: rgba(255, 255, 255, 0.1);
+      height: 8px;
+      border-radius: 999px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .card {
+      background: var(--bg-white);
+      color: var(--text-dark);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .section-icon {
+      font-size: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .section-description {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+    }
+
+    .question:last-child {
+      margin-bottom: 0;
+    }
+
+    .question-number {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--bg-dark);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    .question-text {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option {
+      position: relative;
+    }
+
+    .option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .option label {
+      display: block;
+      padding: 1rem 1.25rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9375rem;
+      background: var(--bg-white);
+    }
+
+    .option input[type="radio"]:checked + label {
+      border-color: var(--primary);
+      background: rgba(0, 212, 170, 0.05);
+      font-weight: 600;
+    }
+
+    .option label:hover {
+      border-color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .option label::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      margin-right: 0.75rem;
+      vertical-align: middle;
+      transition: all 0.2s;
+    }
+
+    .option input[type="radio"]:checked + label::before {
+      border-color: var(--primary);
+      background: var(--primary);
+      box-shadow: inset 0 0 0 3px white;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--bg-dark);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .result-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .result-modal.active {
+      display: flex;
+    }
+
+    .result-content {
+      background: var(--bg-white);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      color: var(--text-dark);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .result-score {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-level {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .result-description {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .result-benefits {
+      background: var(--bg-light);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .result-benefits h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .result-benefits ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .result-benefits li {
+      padding: 0.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .result-benefits li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .result-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="images/logo.png" alt="Rede de Influencers" class="logo">
+      <h1>Pesquisa de Sustentabilidade e DEI</h1>
+      <p class="subtitle">Responda com sinceridade para calcular seu ranking de impacto social e ambiental</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <form id="sustainabilityForm">
+      <!-- Seção 1: Sustentabilidade Social -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🌿</span>
+          <div>
+            <div class="section-title">Sustentabilidade Social</div>
+            <div class="section-description">Ações voltadas ao bem-estar humano, equidade e impacto social</div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">1</span>
+            Você apoia ou divulga causas sociais?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q1" id="q1a" value="3" required>
+              <label for="q1a">Sim, ativamente (ações frequentes)</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q1" id="q1b" value="2">
+              <label for="q1b">Sim, ocasionalmente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q1" id="q1c" value="0">
+              <label for="q1c">Não</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">2</span>
+            Você participa ou colabora com ONGs, projetos sociais ou voluntariado?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q2" id="q2a" value="3" required>
+              <label for="q2a">Sim, regularmente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q2" id="q2b" value="2">
+              <label for="q2b">Sim, esporadicamente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q2" id="q2c" value="0">
+              <label for="q2c">Não</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">3</span>
+            Você cria conteúdo que incentive justiça social, equidade e inclusão?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q3" id="q3a" value="3" required>
+              <label for="q3a">Sim, frequentemente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q3" id="q3b" value="1">
+              <label for="q3b">Às vezes</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q3" id="q3c" value="0">
+              <label for="q3c">Não</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 2: Diversidade & Inclusão -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🌈</span>
+          <div>
+            <div class="section-title">Diversidade & Inclusão (DEI)</div>
+            <div class="section-description">Promoção de inclusão, representatividade e respeito às diferenças</div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">4</span>
+            Você apoia causas relacionadas à diversidade (gênero, raça, PCD, LGBTQIA+, etc.)?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q4" id="q4a" value="3" required>
+              <label for="q4a">Sim, de forma consistente e pública</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q4" id="q4b" value="2">
+              <label for="q4b">Sim, ocasionalmente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q4" id="q4c" value="0">
+              <label for="q4c">Não</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">5</span>
+            Você trabalha com marcas e projetos que possuem práticas inclusivas?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q5" id="q5a" value="3" required>
+              <label for="q5a">Sempre priorizo</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q5" id="q5b" value="1">
+              <label for="q5b">Às vezes considero</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q5" id="q5c" value="0">
+              <label for="q5c">Não levo em consideração</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">6</span>
+            Seu conteúdo demonstra representatividade e inclusão real (pautas, colaborações, linguagem, posicionamento)?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q6" id="q6a" value="3" required>
+              <label for="q6a">Sim, de forma clara</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q6" id="q6b" value="1">
+              <label for="q6b">Parcialmente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q6" id="q6c" value="0">
+              <label for="q6c">Não</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 3: Sustentabilidade Ambiental -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🌍</span>
+          <div>
+            <div class="section-title">Sustentabilidade Ambiental</div>
+            <div class="section-description">Postura ecológica e responsabilidade no consumo e nas parcerias</div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">7</span>
+            Você evita divulgar marcas que não possuem práticas sustentáveis?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q7" id="q7a" value="3" required>
+              <label for="q7a">Sim, sempre</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q7" id="q7b" value="1">
+              <label for="q7b">Às vezes</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q7" id="q7c" value="0">
+              <label for="q7c">Não</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">8</span>
+            Você tem hábitos sustentáveis no seu dia a dia que são visíveis no conteúdo?
+            <div class="section-description" style="margin-top: 0.5rem;">Exemplos: reciclagem, baixo desperdício, consumo consciente, marcas locais</div>
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q8" id="q8a" value="3" required>
+              <label for="q8a">Sim, frequentemente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q8" id="q8b" value="1">
+              <label for="q8b">Ocasionalmente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q8" id="q8c" value="0">
+              <label for="q8c">Não</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">9</span>
+            Você segue alguma prática alimentar ou estilo de vida alinhado à sustentabilidade?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q9" id="q9a" value="3" required>
+              <label for="q9a">Vegana / vegetariana estrita</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q9" id="q9b" value="2">
+              <label for="q9b">Reduz carne / segue consumo consciente</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q9" id="q9c" value="0">
+              <label for="q9c">Não</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 4: Ética de Consumo & Parcerias -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🛍</span>
+          <div>
+            <div class="section-title">Ética de Consumo & Parcerias</div>
+            <div class="section-description">Responsabilidade na escolha das marcas com quem trabalha</div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">10</span>
+            Você pesquisa a responsabilidade social e ambiental das marcas antes de aceitar parcerias?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q10" id="q10a" value="3" required>
+              <label for="q10a">Sempre</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q10" id="q10b" value="1">
+              <label for="q10b">Às vezes</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q10" id="q10c" value="0">
+              <label for="q10c">Raramente</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-text">
+            <span class="question-number">11</span>
+            Você já recusou campanhas por não estarem alinhadas aos seus valores de diversidade ou sustentabilidade?
+          </div>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q11" id="q11a" value="3" required>
+              <label for="q11a">Sim, mais de uma vez</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q11" id="q11b" value="2">
+              <label for="q11b">Sim, uma vez</label>
+            </div>
+            <div class="option">
+              <input type="radio" name="q11" id="q11c" value="0">
+              <label for="q11c">Não</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="submitBtn">Calcular Meu Ranking</button>
+    </form>
+  </div>
+
+  <!-- Result Modal -->
+  <div class="result-modal" id="resultModal">
+    <div class="result-content">
+      <div class="result-icon" id="resultIcon"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-level" id="resultLevel"></div>
+      <div class="result-description" id="resultDescription"></div>
+      
+      <div class="result-benefits">
+        <h3>Benefícios do seu nível:</h3>
+        <ul id="resultBenefits"></ul>
+      </div>
+
+      <button class="btn btn-primary" onclick="window.location.href='dashboard-influencer.html'">
+        Ir para o Dashboard
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('sustainabilityForm');
+    const progressFill = document.getElementById('progressFill');
+    const resultModal = document.getElementById('resultModal');
+    const totalQuestions = 11;
+
+    // Configuração dos níveis
+    const levels = {
+      iniciante: {
+        min: 0,
+        max: 8,
+        icon: '🌱',
+        title: 'Iniciante',
+        description: 'Você está começando sua jornada de sustentabilidade e DEI. Continue aprendendo e se engajando!',
+        benefits: [
+          'Badge Iniciante no perfil',
+          'Acesso a conteúdos educativos',
+          'Comunidade de apoio'
+        ]
+      },
+      consciente: {
+        min: 9,
+        max: 16,
+        icon: '🌿',
+        title: 'Consciente',
+        description: 'Você demonstra consciência sobre sustentabilidade e diversidade. Continue evoluindo!',
+        benefits: [
+          'Badge Consciente no perfil',
+          '+5 pontos no ranking geral',
+          'Destaque em buscas de empresas conscientes',
+          'Acesso a workshops exclusivos'
+        ]
+      },
+      engajado: {
+        min: 17,
+        max: 24,
+        icon: '💚',
+        title: 'Engajado',
+        description: 'Você está ativamente engajado em causas sociais e ambientais. Parabéns pelo compromisso!',
+        benefits: [
+          'Badge Engajado no perfil',
+          '+10 pontos no ranking geral',
+          'Prioridade em buscas',
+          '10% de desconto na taxa mensal',
+          'Selo de Influencer Engajado'
+        ]
+      },
+      ativista: {
+        min: 25,
+        max: 29,
+        icon: '🌟',
+        title: 'Ativista',
+        description: 'Você é um exemplo de ativismo e responsabilidade social. Seu impacto é significativo!',
+        benefits: [
+          'Badge Ativista dourado no perfil',
+          '+15 pontos no ranking geral',
+          'Destaque premium em buscas',
+          '20% de desconto na taxa mensal',
+          'Acesso a campanhas exclusivas',
+          'Mentoria com especialistas'
+        ]
+      },
+      embaixador: {
+        min: 30,
+        max: 33,
+        icon: '👑',
+        title: 'Embaixador',
+        description: 'Você é um verdadeiro embaixador da sustentabilidade e diversidade. Inspirador!',
+        benefits: [
+          'Badge Embaixador platinum no perfil',
+          '+25 pontos no ranking geral',
+          'Posição de destaque máxima',
+          'Isenção total da taxa mensal',
+          'Campanhas VIP exclusivas',
+          'Programa de embaixadores',
+          'Reconhecimento público na plataforma'
+        ]
+      }
+    };
+
+    // Atualizar progresso
+    form.addEventListener('change', updateProgress);
+
+    function updateProgress() {
+      const answered = Array.from(form.querySelectorAll('input[type="radio"]:checked')).length;
+      const progress = (answered / totalQuestions) * 100;
+      progressFill.style.width = progress + '%';
+    }
+
+    // Calcular resultado
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let totalScore = 0;
+      for (let i = 1; i <= totalQuestions; i++) {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) {
+          totalScore += parseInt(selected.value);
+        }
+      }
+
+      // Determinar nível
+      let level = null;
+      for (const [key, data] of Object.entries(levels)) {
+        if (totalScore >= data.min && totalScore <= data.max) {
+          level = data;
+          break;
+        }
+      }
+
+      // Exibir resultado
+      if (level) {
+        document.getElementById('resultIcon').textContent = level.icon;
+        document.getElementById('resultScore').textContent = totalScore + ' / 33';
+        document.getElementById('resultLevel').textContent = level.title;
+        document.getElementById('resultDescription').textContent = level.description;
+
+        const benefitsList = document.getElementById('resultBenefits');
+        benefitsList.innerHTML = '';
+        level.benefits.forEach(benefit => {
+          const li = document.createElement('li');
+          li.textContent = benefit;
+          benefitsList.appendChild(li);
+        });
+
+        resultModal.classList.add('active');
+
+        // Salvar no localStorage (simulação)
+        localStorage.setItem('sustainabilityScore', totalScore);
+        localStorage.setItem('sustainabilityLevel', level.title);
+      }
+    });
+
+    // Fechar modal ao clicar fora
+    resultModal.addEventListener('click', function(e) {
+      if (e.target === resultModal) {
+        resultModal.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
