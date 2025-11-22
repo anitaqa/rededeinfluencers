@@ -325,21 +325,135 @@
       transform: translateX(-5px);
     }
 
+    /* iOS Mobile Optimization */
     @media (max-width: 768px) {
+      body {
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        padding: 1rem 0.75rem;
+      }
+
+      .logo {
+        width: 120px;
+      }
+
       h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+        padding: 0 1rem;
       }
 
       .plans-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .plan-card {
+        padding: 1.5rem;
+      }
+
+      .plan-name {
+        font-size: 1.5rem;
+      }
+
+      .plan-price {
+        font-size: 2rem;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        min-height: 48px; /* iOS touch target */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      .popular-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      /* Upgrade section mobile */
+      .upgrade-section {
+        padding: 1.5rem !important;
+        margin: 2rem 0 !important;
+      }
+
+      .upgrade-section h2 {
+        font-size: 1.5rem !important;
+      }
+
+      .upgrade-section .benefits-box {
+        padding: 1rem !important;
+      }
+
+      /* Table mobile */
+      .comparison-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       table {
-        font-size: 0.875rem;
+        font-size: 0.8rem;
+        min-width: 600px;
       }
 
       th, td {
-        padding: 0.75rem 0.5rem;
+        padding: 0.5rem 0.25rem;
+      }
+
+      /* FAQ mobile */
+      .faq-question {
+        font-size: 0.95rem;
+      }
+
+      .faq-answer {
+        font-size: 0.875rem;
+      }
+
+      /* Back link mobile */
+      .back-link {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    /* iPhone SE and small screens */
+    @media (max-width: 375px) {
+      .logo {
+        width: 100px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .plan-price {
+        font-size: 1.75rem;
+      }
+
+      .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      .btn {
+        -webkit-appearance: none;
+        border-radius: 12px;
+      }
+
+      input, button {
+        -webkit-appearance: none;
       }
     }
   </style>
@@ -409,7 +523,7 @@
           <li>Badge "Mega Influencer" 💎</li>
           <li>Prioridade máxima</li>
         </ul>
-        <a href="https://buy.stripe.com/test_mega_plan" class="btn btn-primary">Assinar Mega</a>
+        <a href="carrinho.html" class="btn btn-primary">Assinar Mega</a>
 
       </div>
     </div>
