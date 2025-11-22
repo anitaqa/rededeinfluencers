@@ -745,16 +745,28 @@
         return;
       }
       
-      // Simulate form submission
+      // Coletar dados do formulário
+      const formData = new FormData(this);
+      const cadastroData = {};
+      formData.forEach((value, key) => {
+        cadastroData[key] = value;
+      });
+      
+      // Salvar dados no localStorage
+      localStorage.setItem('cadastroInfluencer', JSON.stringify(cadastroData));
+      
+      // Ocultar mensagem de erro
       document.getElementById('errorMessage').style.display = 'none';
+      
+      // Mostrar mensagem de sucesso
+      document.getElementById('successMessage').textContent = 'Cadastro validado! Redirecionando para escolha do plano...';
       document.getElementById('successMessage').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Reset form after 3 seconds
+      // Redirecionar para página de planos após 2 segundos
       setTimeout(() => {
-        this.reset();
-        document.getElementById('successMessage').style.display = 'none';
-      }, 3000);
+        window.location.href = 'gateway-pagamento.html';
+      }, 2000);
     });
 
     // Phone mask

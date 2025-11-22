@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Concluído - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/anitaqa/rededeinfluencers/main/logo.png">
+  <style>
+    :root {
+      --primary: #00d4aa;
+      --primary-dark: #00b894;
+      --secondary: #2d3748;
+      --text: #e2e8f0;
+      --text-muted: #a0aec0;
+      --background: #1a202c;
+      --surface: #2d3748;
+      --success: #48bb78;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 3rem;
+      animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .info-box {
+      background: rgba(0, 212, 170, 0.1);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: left;
+      margin: 2rem 0;
+    }
+
+    .info-box h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .info-box li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-box li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      margin: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--secondary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--secondary);
+    }
+
+    .next-steps {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .next-steps h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .next-steps p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-icon">✓</div>
+    <h1>Cadastro Concluído!</h1>
+    <p class="subtitle">Bem-vindo(a) à Rede de Influencers</p>
+
+    <div class="info-box">
+      <h3>🌱 Plano Gratuito Ativado</h3>
+      <ul>
+        <li>Perfil básico visível para empresas</li>
+        <li>Receber propostas de colaboração</li>
+        <li>Até 3 redes sociais conectadas</li>
+        <li>Portfólio com até 5 itens</li>
+        <li>Taxa de 20% por contratação</li>
+      </ul>
+    </div>
+
+    <div class="next-steps">
+      <h3>📋 Próximos Passos</h3>
+      <p>Seu perfil está sendo analisado pela nossa equipe. Em até 24 horas você receberá um email de confirmação e poderá acessar seu dashboard.</p>
+      
+      <a href="index.html" class="btn btn-primary">Voltar para Home</a>
+      <a href="gateway-pagamento.html" class="btn btn-secondary">Ver Planos Pagos</a>
+    </div>
+
+    <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.875rem;">
+      Dúvidas? <a href="mailto:contato@rededeinfluencers.com.br" style="color: var(--primary);">Entre em contato</a>
+    </p>
+  </div>
+
+  <script>
+    // Verificar se há dados de cadastro
+    window.addEventListener('DOMContentLoaded', () => {
+      const cadastroData = localStorage.getItem('cadastroInfluencer');
+      const plano = new URLSearchParams(window.location.search).get('plano');
+      
+      if (!cadastroData) {
+        alert('Nenhum dado de cadastro encontrado. Você será redirecionado para a página de cadastro.');
+        window.location.href = 'cadastro-influencer.html';
+        return;
+      }
+
+      // TODO: Enviar dados para o backend
+      console.log('Dados do cadastro:', JSON.parse(cadastroData));
+      console.log('Plano selecionado:', plano);
+
+      // Limpar localStorage após confirmação
+      // localStorage.removeItem('cadastroInfluencer');
+      // localStorage.removeItem('planoSelecionado');
+    });
+  </script>
+</body>
+</html>

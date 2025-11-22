@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolha Seu Plano - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/anitaqa/rededeinfluencers/main/logo.png">
+  <style>
+    :root {
+      --primary: #00d4aa;
+      --primary-dark: #00b894;
+      --secondary: #2d3748;
+      --accent: #ffd700;
+      --text: #e2e8f0;
+      --text-muted: #a0aec0;
+      --background: #1a202c;
+      --surface: #2d3748;
+      --success: #48bb78;
+      --error: #f56565;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-top: 2rem;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .plan-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 40px rgba(0, 212, 170, 0.2);
+    }
+
+    .plan-card.popular {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #2d3748 0%, #3d4758 100%);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent);
+      color: var(--secondary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .plan-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-card.popular .plan-name {
+      color: var(--accent);
+    }
+
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 1rem 0;
+    }
+
+    .plan-price span {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .plan-fee {
+      background: rgba(0, 212, 170, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      text-align: center;
+      margin: 1rem 0;
+      border-left: 3px solid var(--primary);
+    }
+
+    .plan-fee-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-fee-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .plan-features {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .plan-features li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .plan-features li:last-child {
+      border-bottom: none;
+    }
+
+    .plan-features li::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .plan-features li.disabled {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .plan-features li.disabled::before {
+      content: "✗";
+      color: var(--error);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--secondary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: scale(1.02);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--secondary);
+    }
+
+    .btn-gold {
+      background: var(--accent);
+      color: var(--secondary);
+    }
+
+    .btn-gold:hover {
+      background: #ffed4e;
+      transform: scale(1.02);
+    }
+
+    .comparison-table {
+      margin: 4rem 0;
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .comparison-table h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      color: var(--text);
+    }
+
+    .check {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .cross {
+      color: var(--error);
+      font-weight: 700;
+    }
+
+    .faq {
+      margin: 4rem 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .faq h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-answer {
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--primary);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      transform: translateX(-5px);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 0.875rem;
+      }
+
+      th, td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="cadastro-influencer.html" class="back-link">← Voltar para o Cadastro</a>
+
+    <header>
+      <img src="https://raw.githubusercontent.com/anitaqa/rededeinfluencers/main/logo.png" alt="Logo" class="logo">
+      <h1>Escolha Seu Plano</h1>
+      <p class="subtitle">Selecione o plano ideal para impulsionar sua carreira como influencer sustentável</p>
+    </header>
+
+    <div class="plans-grid">
+      <!-- Plano Gratuito -->
+      <div class="plan-card">
+        <div class="plan-name">🌱 Gratuito</div>
+        <div class="plan-price">R$ 0<span>/mês</span></div>
+        <div class="plan-fee">
+          <div class="plan-fee-label">Taxa por Contratação</div>
+          <div class="plan-fee-value">20%</div>
+        </div>
+        <ul class="plan-features">
+          <li>Perfil básico visível</li>
+          <li>Até 3 redes sociais</li>
+          <li>Receber propostas</li>
+          <li>Portfólio limitado (5 itens)</li>
+          <li class="disabled">Selo verificado</li>
+          <li class="disabled">Destaque na busca</li>
+          <li class="disabled">Suporte prioritário</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" onclick="selectPlan('free'); return false;">Começar Grátis</a>
+      </div>
+
+      <!-- Plano Top -->
+      <div class="plan-card">
+        <div class="plan-name">🌿 Top</div>
+        <div class="plan-price">R$ 49,90<span>/mês</span></div>
+        <div class="plan-fee">
+          <div class="plan-fee-label">Taxa por Contratação</div>
+          <div class="plan-fee-value">15%</div>
+        </div>
+        <ul class="plan-features">
+          <li>Tudo do plano Gratuito</li>
+          <li>Até 6 redes sociais</li>
+          <li>Portfólio ilimitado</li>
+          <li>Destaque na busca</li>
+          <li>Estatísticas avançadas</li>
+          <li class="disabled">Selo verificado</li>
+          <li class="disabled">Suporte prioritário</li>
+        </ul>
+        <a href="#" class="btn btn-primary" onclick="selectPlan('top'); return false;">Assinar Top</a>
+      </div>
+
+      <!-- Plano Mega (Popular) -->
+      <div class="plan-card popular">
+        <div class="popular-badge">⭐ Mais Popular</div>
+        <div class="plan-name">🌳 Mega</div>
+        <div class="plan-price">R$ 99,90<span>/mês</span></div>
+        <div class="plan-fee">
+          <div class="plan-fee-label">Taxa por Contratação</div>
+          <div class="plan-fee-value">10%</div>
+        </div>
+        <ul class="plan-features">
+          <li>Tudo do plano Top</li>
+          <li>Selo verificado 🏆</li>
+          <li>Prioridade nas buscas</li>
+          <li>Análise de concorrência</li>
+          <li>Suporte por email</li>
+          <li>Badge "Mega Influencer"</li>
+          <li class="disabled">Suporte VIP 24/7</li>
+        </ul>
+        <a href="#" class="btn btn-gold" onclick="selectPlan('mega'); return false;">Assinar Mega</a>
+      </div>
+
+      <!-- Plano Blaster -->
+      <div class="plan-card">
+        <div class="plan-name">🌍 Blaster</div>
+        <div class="plan-price">R$ 199,90<span>/mês</span></div>
+        <div class="plan-fee">
+          <div class="plan-fee-label">Taxa por Contratação</div>
+          <div class="plan-fee-value">5%</div>
+        </div>
+        <ul class="plan-features">
+          <li>Tudo do plano Mega</li>
+          <li>Taxa mínima (5%)</li>
+          <li>Máxima visibilidade</li>
+          <li>Suporte VIP 24/7</li>
+          <li>Gerente de conta dedicado</li>
+          <li>Campanhas exclusivas</li>
+          <li>Badge "Blaster" 💎</li>
+        </ul>
+        <a href="#" class="btn btn-primary" onclick="selectPlan('blaster'); return false;">Assinar Blaster</a>
+      </div>
+    </div>
+
+    <!-- Tabela Comparativa -->
+    <div class="comparison-table">
+      <h2>📊 Comparação Detalhada</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Recurso</th>
+            <th>Gratuito</th>
+            <th>Top</th>
+            <th>Mega</th>
+            <th>Blaster</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Taxa por Contratação</td>
+            <td>20%</td>
+            <td>15%</td>
+            <td>10%</td>
+            <td>5%</td>
+          </tr>
+          <tr>
+            <td>Redes Sociais</td>
+            <td>3</td>
+            <td>6</td>
+            <td>6</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>Portfólio</td>
+            <td>5 itens</td>
+            <td>Ilimitado</td>
+            <td>Ilimitado</td>
+            <td>Ilimitado</td>
+          </tr>
+          <tr>
+            <td>Destaque na Busca</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Selo Verificado</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Estatísticas Avançadas</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Suporte</td>
+            <td>Email</td>
+            <td>Email</td>
+            <td>Email</td>
+            <td>VIP 24/7</td>
+          </tr>
+          <tr>
+            <td>Gerente de Conta</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq">
+      <h2>❓ Perguntas Frequentes</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Como funciona a taxa por contratação?</div>
+        <div class="faq-answer">
+          A taxa é cobrada apenas quando você recebe um pagamento de uma empresa. Por exemplo, se você receber R$ 1.000 no plano Top (15%), a plataforma retém R$ 150 e você recebe R$ 850.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Posso mudar de plano depois?</div>
+        <div class="faq-answer">
+          Sim! Você pode fazer upgrade ou downgrade a qualquer momento. O valor será ajustado proporcionalmente no próximo ciclo de cobrança.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Como funciona o período de teste?</div>
+        <div class="faq-answer">
+          Todos os planos pagos têm 7 dias de teste grátis. Você pode cancelar a qualquer momento durante o período de teste sem custo.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Posso cancelar minha assinatura?</div>
+        <div class="faq-answer">
+          Sim, você pode cancelar a qualquer momento. Seu acesso continuará até o final do período pago e depois voltará para o plano Gratuito.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Quais formas de pagamento são aceitas?</div>
+        <div class="faq-answer">
+          Aceitamos cartão de crédito, débito, PIX e boleto bancário através de nossos parceiros de pagamento seguros.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectPlan(planName) {
+      // Salvar dados do cadastro no localStorage (se houver)
+      const cadastroData = localStorage.getItem('cadastroInfluencer');
+      
+      // Salvar plano selecionado
+      localStorage.setItem('planoSelecionado', planName);
+      
+      // Mapear planos para URLs de pagamento
+      const paymentUrls = {
+        'free': 'confirmar-cadastro.html?plano=free',
+        'top': 'https://pay.stripe.com/top-plan', // Substituir com URL real do Stripe
+        'mega': 'https://pay.stripe.com/mega-plan', // Substituir com URL real do Stripe
+        'blaster': 'https://pay.stripe.com/blaster-plan' // Substituir com URL real do Stripe
+      };
+      
+      // Exibir mensagem de confirmação
+      const planNames = {
+        'free': 'Gratuito',
+        'top': 'Top (R$ 49,90/mês)',
+        'mega': 'Mega (R$ 99,90/mês)',
+        'blaster': 'Blaster (R$ 199,90/mês)'
+      };
+      
+      if (planName === 'free') {
+        alert(`Plano ${planNames[planName]} selecionado! Você será redirecionado para finalizar o cadastro.`);
+      } else {
+        alert(`Plano ${planNames[planName]} selecionado! Você será redirecionado para o pagamento seguro.\n\n✓ 7 dias de teste grátis\n✓ Cancele a qualquer momento`);
+      }
+      
+      // Redirecionar para página de pagamento
+      window.location.href = paymentUrls[planName];
+    }
+
+    // Verificar se há dados de cadastro salvos
+    window.addEventListener('DOMContentLoaded', () => {
+      const cadastroData = localStorage.getItem('cadastroInfluencer');
+      if (!cadastroData) {
+        console.warn('Nenhum dado de cadastro encontrado. Usuário veio direto para página de planos.');
+      }
+    });
+  </script>
+</body>
+</html>
