@@ -719,31 +719,9 @@
   </footer>
 
   <script>
-    // Form validation and submission
+    // Form submission (sem validações para facilitar teste do mockup)
     document.getElementById('cadastroForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      // Validate social media (at least one required)
-      const instagram = document.getElementById('instagram').value;
-      const tiktok = document.getElementById('tiktok').value;
-      const youtube = document.getElementById('youtube').value;
-      const twitter = document.getElementById('twitter').value;
-      
-      if (!instagram && !tiktok && !youtube && !twitter) {
-        document.getElementById('errorMessage').textContent = 'Por favor, adicione pelo menos uma rede social.';
-        document.getElementById('errorMessage').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      
-      // Validate bio length
-      const bio = document.getElementById('bio').value;
-      if (bio.length < 100) {
-        document.getElementById('errorMessage').textContent = 'A descrição sobre você deve ter no mínimo 100 caracteres.';
-        document.getElementById('errorMessage').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
       
       // Coletar dados do formulário
       const formData = new FormData(this);
@@ -759,14 +737,14 @@
       document.getElementById('errorMessage').style.display = 'none';
       
       // Mostrar mensagem de sucesso
-      document.getElementById('successMessage').textContent = 'Cadastro validado! Redirecionando para escolha do plano...';
+      document.getElementById('successMessage').textContent = 'Redirecionando para escolha do plano...';
       document.getElementById('successMessage').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Redirecionar para página de planos após 2 segundos
+      // Redirecionar para página de planos após 1 segundo
       setTimeout(() => {
         window.location.href = 'gateway-pagamento.html';
-      }, 2000);
+      }, 1000);
     });
 
     // Phone mask
