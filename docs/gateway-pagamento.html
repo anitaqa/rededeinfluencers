@@ -46,9 +46,12 @@
     }
 
     .logo {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 1rem;
+      width: 150px;
+      height: auto;
+      margin-bottom: 1.5rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     h1 {
@@ -362,67 +365,82 @@
 
     <div class="plans-grid">
 
-      <!-- Plano Top -->
+      <!-- Plano Nano/Micro -->
       <div class="plan-card">
-        <div class="plan-name">🌿 Top</div>
-        <div class="plan-price">R$ 49,90<span>/mês</span></div>
-        <div class="plan-fee">
-          <div class="plan-fee-label">Taxa por Contratação</div>
-          <div class="plan-fee-value">15%</div>
-        </div>
+        <div class="plan-name">🌱 Nano/Micro</div>
+        <div class="plan-price">R$ 199<span>/mês</span></div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin: 1rem 0;">Até 100K seguidores</div>
         <ul class="plan-features">
-          <li>Tudo do plano Gratuito</li>
+          <li>Perfil completo visível</li>
           <li>Até 6 redes sociais</li>
           <li>Portfólio ilimitado</li>
-          <li>Destaque na busca</li>
-          <li>Estatísticas avançadas</li>
+          <li>Receber propostas</li>
+          <li>Estatísticas básicas</li>
+          <li>Suporte por email</li>
           <li class="disabled">Selo verificado</li>
-          <li class="disabled">Suporte prioritário</li>
         </ul>
-        <a href="#" class="btn btn-primary" onclick="selectPlan('top'); return false;">Assinar Top</a>
+        <a href="#" class="btn btn-primary" onclick="selectPlan('nano'); return false;">Assinar Nano/Micro</a>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600;">🎉 Primeiros 30 dias grátis!</p>
       </div>
 
-      <!-- Plano Mega (Popular) -->
+      <!-- Plano Macro (Popular) -->
       <div class="plan-card popular">
         <div class="popular-badge">⭐ Mais Popular</div>
-        <div class="plan-name">🌳 Mega</div>
-        <div class="plan-price">R$ 99,90<span>/mês</span></div>
-        <div class="plan-fee">
-          <div class="plan-fee-label">Taxa por Contratação</div>
-          <div class="plan-fee-value">10%</div>
-        </div>
+        <div class="plan-name">🌿 Macro</div>
+        <div class="plan-price">R$ 499<span>/mês</span></div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin: 1rem 0;">100K a 1M seguidores</div>
         <ul class="plan-features">
-          <li>Tudo do plano Top</li>
+          <li>Tudo do plano Nano/Micro</li>
           <li>Selo verificado 🏆</li>
-          <li>Prioridade nas buscas</li>
+          <li>Destaque na busca</li>
+          <li>Estatísticas avançadas</li>
           <li>Análise de concorrência</li>
-          <li>Suporte por email</li>
-          <li>Badge "Mega Influencer"</li>
-          <li class="disabled">Suporte VIP 24/7</li>
+          <li>Suporte prioritário</li>
+          <li>Badge "Macro Influencer"</li>
         </ul>
-        <a href="#" class="btn btn-gold" onclick="selectPlan('mega'); return false;">Assinar Mega</a>
+        <a href="#" class="btn btn-gold" onclick="selectPlan('macro'); return false;">Assinar Macro</a>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600;">🎉 Primeiros 30 dias grátis!</p>
       </div>
 
-      <!-- Plano Blaster -->
+      <!-- Plano Mega -->
       <div class="plan-card">
-        <div class="plan-name">🌍 Blaster</div>
-        <div class="plan-price">R$ 199,90<span>/mês</span></div>
-        <div class="plan-fee">
-          <div class="plan-fee-label">Taxa por Contratação</div>
-          <div class="plan-fee-value">5%</div>
-        </div>
+        <div class="plan-name">🌳 Mega</div>
+        <div class="plan-price">R$ 789<span>/mês</span></div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin: 1rem 0;">Acima de 1M seguidores</div>
         <ul class="plan-features">
-          <li>Tudo do plano Mega</li>
-          <li>Taxa mínima (5%)</li>
+          <li>Tudo do plano Macro</li>
+          <li>Máxima visibilidade</li>
           <li>Suporte VIP 24/7</li>
           <li>Gerente de conta dedicado</li>
           <li>Campanhas exclusivas</li>
-          <li>Badge "Blaster" 💎</li>
+          <li>Badge "Mega Influencer" 💎</li>
           <li>Prioridade máxima</li>
         </ul>
-        <a href="#" class="btn btn-primary" onclick="selectPlan('blaster'); return false;">Assinar Blaster</a>
+        <a href="#" class="btn btn-primary" onclick="selectPlan('mega'); return false;">Assinar Mega</a>
         <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600;">🎉 Primeiros 30 dias grátis!</p>
       </div>
+    </div>
+
+    <!-- Upgrade de Visibilidade -->
+    <div style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 16px; padding: 2.5rem; margin: 3rem 0; text-align: center; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); border: 3px solid #ffd700;">
+      <h2 style="font-size: 2.2rem; margin-bottom: 1rem; color: #1a202c;">⚡ Upgrade de Visibilidade</h2>
+      <p style="font-size: 1.5rem; color: #1a202c; font-weight: 700; margin-bottom: 0.5rem;">+R$ 299/mês</p>
+      <p style="font-size: 1.1rem; color: #2d3748; margin-bottom: 1.5rem;">Disponível para todos os planos</p>
+      
+      <div style="background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 1.5rem; margin: 1.5rem auto; max-width: 600px; text-align: left;">
+        <p style="font-size: 1rem; color: #1a202c; font-weight: 600; margin-bottom: 1rem;">✨ Benefícios do Upgrade:</p>
+        <ul style="list-style: none; padding: 0; margin: 0; color: #2d3748;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);">🚀 Aparecer no topo dos resultados de busca</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);">⭐ Destaque na página inicial</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);">📧 Notificações prioritárias de propostas</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);">📊 Relatórios semanais de performance</li>
+          <li style="padding: 0.5rem 0;">💼 Recomendação ativa para empresas</li>
+        </ul>
+      </div>
+      
+      <p style="font-size: 0.95rem; color: #2d3748; margin-top: 1rem; font-style: italic;">
+        💡 Aumente suas chances de ser contratada em até 5x!
+      </p>
     </div>
 
     <!-- Tabela Comparativa -->
@@ -432,23 +450,23 @@
         <thead>
           <tr>
             <th>Recurso</th>
-            <th>🌿 Top</th>
+            <th>🌱 Nano/Micro</th>
+            <th>🌿 Macro</th>
             <th>🌳 Mega</th>
-            <th>🌍 Blaster</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Valor Mensal</strong></td>
-            <td>R$ 49,90</td>
-            <td>R$ 99,90</td>
-            <td>R$ 199,90</td>
+            <td>R$ 199</td>
+            <td>R$ 499</td>
+            <td>R$ 789</td>
           </tr>
           <tr>
-            <td><strong>Taxa por Contratação</strong></td>
-            <td>15%</td>
-            <td>10%</td>
-            <td>5%</td>
+            <td><strong>Faixa de Seguidores</strong></td>
+            <td>Até 100K</td>
+            <td>100K a 1M</td>
+            <td>Acima de 1M</td>
           </tr>
           <tr>
             <td>Redes Sociais</td>
@@ -507,9 +525,9 @@
       <h2>❓ Perguntas Frequentes</h2>
 
       <div class="faq-item">
-        <div class="faq-question">Como funciona a taxa por contratação?</div>
+        <div class="faq-question">Como funciona o pagamento da mensalidade?</div>
         <div class="faq-answer">
-          A taxa é cobrada apenas quando você recebe um pagamento de uma empresa. Por exemplo, se você receber R$ 1.000 no plano Top (15%), a plataforma retém R$ 150 e você recebe R$ 850.
+          Você paga apenas a mensalidade do plano escolhido. Não há taxas adicionais sobre suas contratações. As empresas pagam uma taxa de serviço ao contratar influencers, mas isso não afeta o valor que você recebe.
         </div>
       </div>
 
@@ -523,14 +541,21 @@
       <div class="faq-item">
         <div class="faq-question">Como funciona o período de teste?</div>
         <div class="faq-answer">
-          Todos os planos pagos têm 7 dias de teste grátis. Você pode cancelar a qualquer momento durante o período de teste sem custo.
+          Todos os planos têm 30 dias grátis! Você pode cancelar a qualquer momento durante o período de teste sem custo.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">Posso cancelar minha assinatura?</div>
         <div class="faq-answer">
-          Sim, você pode cancelar a qualquer momento. Seu acesso continuará até o final do período pago e depois voltará para o plano Gratuito.
+          Sim, você pode cancelar a qualquer momento. Seu acesso continuará até o final do período pago.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">O que é o Upgrade de Visibilidade?</div>
+        <div class="faq-answer">
+          É um complemento opcional de R$ 299/mês que pode ser adicionado a qualquer plano. Ele coloca seu perfil em destaque, aumentando suas chances de ser encontrada e contratada por empresas em até 5x.
         </div>
       </div>
 
