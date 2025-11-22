@@ -23,17 +23,14 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-
-    body {
+       body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-      color: var(--text);
-      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
       min-height: 100vh;
-    }
-
-    .container {
+    }   .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
@@ -56,9 +53,9 @@
 
     h1 {
       font-size: 2.5rem;
-      color: var(--primary);
+      color: #10b981;
       margin-bottom: 0.5rem;
-      font-weight: 700;
+      text-align: center;
     }
 
     .subtitle {
@@ -76,13 +73,14 @@
     }
 
     .plan-card {
-      background: var(--surface);
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
       border-radius: 16px;
       padding: 2rem;
-      border: 2px solid transparent;
+      border: 2px solid rgba(16, 185, 129, 0.5);
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      color: #e2e8f0;
     }
 
     .plan-card:hover {
@@ -351,17 +349,12 @@
     <a href="cadastro-influencer.html" class="back-link">← Voltar para o Cadastro</a>
 
     <header>
-      <img src="https://raw.githubusercontent.com/anitaqa/rededeinfluencers/main/logo.png" alt="Logo" class="logo">
+      <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
       <h1>Escolha Seu Plano</h1>
       <p class="subtitle">Selecione o plano ideal para impulsionar sua carreira como influencer sustentável</p>
     </header>
 
-    <!-- Banner Promocional 30 Dias Grátis -->
-    <div style="background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; text-align: center; box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);">
-      <h2 style="font-size: 2rem; margin-bottom: 0.5rem; color: #1a202c;">🎉 Promoção de Lançamento!</h2>
-      <p style="font-size: 1.3rem; color: #1a202c; font-weight: 600; margin-bottom: 0.5rem;">30 DIAS GRÁTIS em qualquer plano!</p>
-      <p style="font-size: 1rem; color: #2d3748; opacity: 0.9;">Teste todos os recursos sem compromisso. Cancele quando quiser.</p>
-    </div>
+
 
     <div class="plans-grid">
 
@@ -380,7 +373,7 @@
           <li class="disabled">Selo verificado</li>
         </ul>
         <a href="#" class="btn btn-primary" onclick="selectPlan('nano'); return false;">Assinar Nano/Micro</a>
-        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600;">🎉 Primeiros 30 dias grátis!</p>
+
       </div>
 
       <!-- Plano Macro (Popular) -->
@@ -399,7 +392,7 @@
           <li>Badge "Macro Influencer"</li>
         </ul>
         <a href="#" class="btn btn-gold" onclick="selectPlan('macro'); return false;">Assinar Macro</a>
-        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600;">🎉 Primeiros 30 dias grátis!</p>
+
       </div>
 
       <!-- Plano Mega -->
@@ -417,7 +410,7 @@
           <li>Prioridade máxima</li>
         </ul>
         <a href="#" class="btn btn-primary" onclick="selectPlan('mega'); return false;">Assinar Mega</a>
-        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600;">🎉 Primeiros 30 dias grátis!</p>
+
       </div>
     </div>
 
