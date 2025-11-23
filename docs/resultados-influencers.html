@@ -391,8 +391,102 @@
       <p>Encontramos os melhores influencers para sua campanha baseado nos seus critérios</p>
     </div>
 
-    <h1 class="page-title">🔍 Influencers Sugeridos</h1>
-    <p class="page-subtitle">Selecionamos os perfis mais alinhados com seus objetivos de campanha</p>
+    <!-- Seção de Busca -->
+    <div class="search-section" id="searchSection">
+      <h2 style="font-size: 1.75rem; margin-bottom: 1rem; color: #1a202c;">🔍 Buscar Influencers</h2>
+      <p style="color: #64748b; margin-bottom: 2rem;">Refine sua busca usando os filtros abaixo para encontrar os influencers perfeitos</p>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+        <!-- Coluna Esquerda: Filtros -->
+        <div>
+          <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: #1a202c;">⚙️ Filtros</h3>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a202c;">Nicho</label>
+              <select id="filterNicho" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                <option value="">Todos os nichos</option>
+                <option value="moda">Moda Sustentável</option>
+                <option value="beleza">Beleza Natural</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="alimentacao">Alimentação</option>
+                <option value="zerowaste">Zero Waste</option>
+              </select>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a202c;">Alcance (Seguidores)</label>
+              <select id="filterAlcance" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                <option value="">Qualquer alcance</option>
+                <option value="nano">Nano (1K - 10K)</option>
+                <option value="micro">Micro (10K - 100K)</option>
+                <option value="mid">Mid (100K - 500K)</option>
+                <option value="macro">Macro (500K - 1M)</option>
+                <option value="mega">Mega (1M+)</option>
+              </select>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a202c;">Localização</label>
+              <select id="filterLocalizacao" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                <option value="">Todas as localizações</option>
+                <option value="sp">São Paulo, SP</option>
+                <option value="rj">Rio de Janeiro, RJ</option>
+                <option value="mg">Minas Gerais</option>
+                <option value="pr">Paraná</option>
+              </select>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a202c;">Engajamento Mínimo</label>
+              <select id="filterEngajamento" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                <option value="">Qualquer engajamento</option>
+                <option value="5">5%+</option>
+                <option value="7">7%+</option>
+                <option value="9">9%+</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Coluna Direita: Orçamento -->
+        <div>
+          <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: #1a202c;">💰 Orçamento</h3>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a202c;">Orçamento Mínimo</label>
+              <input type="text" id="orcamentoMin" placeholder="R$ 0" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a202c;">Orçamento Máximo</label>
+              <input type="text" id="orcamentoMax" placeholder="R$ 50.000" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+            </div>
+            
+            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+              <p style="font-size: 0.875rem; color: #059669; margin: 0;">
+                💡 <strong>Dica:</strong> Influencers com maior engajamento podem ter valores mais altos, mas geram melhor ROI.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <button onclick="buscarInfluencers()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 1rem 3rem; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'">
+          🔍 Buscar Influencers
+        </button>
+        <button onclick="limparFiltros()" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 1rem 2rem; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='#10b981'; this.style.color='#10b981'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.color='#64748b'">
+          🔄 Limpar Filtros
+        </button>
+      </div>
+    </div>
+    
+    <!-- Resultados (inicialmente ocultos) -->
+    <div id="resultsSection" style="display: none; margin-top: 3rem;">
+      <h1 class="page-title">🔍 Influencers Sugeridos</h1>
+      <p class="page-subtitle">Selecionamos os perfis mais alinhados com seus objetivos de campanha</p>
 
     <div class="filters-summary">
       <h3>📊 Seus Critérios de Busca</h3>
@@ -579,6 +673,45 @@
 
   <script>
     let selectedRating = 0;
+    
+    // Função de busca
+    function buscarInfluencers() {
+      const nicho = document.getElementById('filterNicho').value;
+      const alcance = document.getElementById('filterAlcance').value;
+      const localizacao = document.getElementById('filterLocalizacao').value;
+      const engajamento = document.getElementById('filterEngajamento').value;
+      const orcamentoMin = document.getElementById('orcamentoMin').value;
+      const orcamentoMax = document.getElementById('orcamentoMax').value;
+      
+      // Atualizar resumo dos filtros
+      document.querySelector('.filters-summary').style.display = 'block';
+      
+      // Atualizar valores dos filtros no resumo
+      const filterValues = document.querySelectorAll('.filter-value');
+      filterValues[0].textContent = nicho ? document.querySelector(`#filterNicho option[value="${nicho}"]`).textContent : 'Todos';
+      filterValues[1].textContent = alcance ? document.querySelector(`#filterAlcance option[value="${alcance}"]`).textContent : 'Qualquer';
+      filterValues[2].textContent = (orcamentoMin || orcamentoMax) ? `${orcamentoMin || 'R$ 0'} - ${orcamentoMax || 'R$ 50.000'}` : 'Flexível';
+      filterValues[3].textContent = localizacao ? document.querySelector(`#filterLocalizacao option[value="${localizacao}"]`).textContent : 'Todas';
+      
+      // Ocultar seção de busca
+      document.getElementById('searchSection').style.display = 'none';
+      
+      // Mostrar resultados
+      document.getElementById('resultsSection').style.display = 'block';
+      
+      // Scroll para resultados
+      document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Função para limpar filtros
+    function limparFiltros() {
+      document.getElementById('filterNicho').value = '';
+      document.getElementById('filterAlcance').value = '';
+      document.getElementById('filterLocalizacao').value = '';
+      document.getElementById('filterEngajamento').value = '';
+      document.getElementById('orcamentoMin').value = '';
+      document.getElementById('orcamentoMax').value = '';
+    }
 
     function hireInfluencer(name) {
       alert(`✅ Contratação Iniciada!\n\nInfluencer: ${name}\n\n📧 Enviamos um email com os próximos passos.\n\nApós concluir a campanha, não esqueça de avaliar!`);
