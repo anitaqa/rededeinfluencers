@@ -303,7 +303,7 @@
         <span class="price-value">R$ 499</span>
       </div>
 
-      <button class="btn btn-primary" onclick="alert('🎉 Simulação de Pagamento!\n\nEm produção, você será redirecionado para o Stripe para finalizar o pagamento com segurança.\n\nPor enquanto, esta é apenas uma demonstração do fluxo.')">
+      <button class="btn btn-primary" onclick="finalizarPagamento()">
         Finalizar Pagamento
       </button>
 
@@ -317,5 +317,14 @@
       </div>
     </div>
   </div>
+  
+  <script>
+    function finalizarPagamento() {
+      alert('🎉 Pagamento Simulado com Sucesso!\n\nPlano Micro ativado!\n\nRedirecionando para completar seu cadastro...');
+      setTimeout(() => {
+        window.location.href = 'cadastro-influencer.html';
+      }, 1500);
+    }
+  </script>
 </body>
 </html>
