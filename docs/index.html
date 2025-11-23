@@ -646,6 +646,128 @@
       }
     });
   </script>
+  
+  <!-- Script para carregar influencers importados -->
+  <script>
+    // Carregar influencers importados do localStorage
+    window.addEventListener('DOMContentLoaded', function() {
+      const importedInfluencers = JSON.parse(localStorage.getItem('importedInfluencers') || '[]');
+      
+      if (importedInfluencers.length > 0) {
+        // Adicionar influencers importados ao grid
+        const grid = document.querySelector('.grid.grid-3');
+        
+        importedInfluencers.forEach(influencer => {
+          const card = createInfluencerCard(influencer);
+          grid.insertBefore(card, grid.firstChild); // Adicionar no início
+        });
+        
+        // Atualizar contador
+        updateInfluencerCount();
+      }
+    });
+
+    function createInfluencerCard(data) {
+      const card = document.createElement('div');
+      card.className = 'influencer-card';
+      
+      // Determinar porte baseado em seguidores
+      let porte = 'Nano';
+      let porteIcon = '🌱';
+      if (data.followers >= 1000000) {
+        porte = 'Mega';
+        porteIcon = '🌟';
+      } else if (data.followers >= 500000) {
+        porte = 'Macro';
+        porteIcon = '🔥';
+      } else if (data.followers >= 100000) {
+        porte = 'Mid';
+        porteIcon = '⭐';
+      } else if (data.followers >= 10000) {
+        porte = 'Micro';
+        porteIcon = '🌿';
+      }
+
+      // Determinar categoria baseada em bio
+      let categoria = 'Lifestyle';
+      const bio = (data.bio || '').toLowerCase();
+      if (bio.includes('moda') || bio.includes('fashion')) categoria = 'Moda Sustentável';
+      else if (bio.includes('beleza') || bio.includes('beauty')) categoria = 'Beleza Natural';
+      else if (bio.includes('comida') || bio.includes('food')) categoria = 'Alimentação';
+      else if (bio.includes('zero waste') || bio.includes('lixo')) categoria = 'Zero Waste';
+
+      // Nível de sustentabilidade (baseado em verificação e tipo de conta)
+      let sustentabilidade = data.verified ? '🌟 Embaixador' : '🌱 Consciente';
+      
+      card.innerHTML = `
+        <img 
+          src="${data.profilePic}" 
+          alt="${data.fullName}"
+          class="influencer-card-image"
+        >
+        <div class="influencer-card-content">
+          <div class="influencer-card-header">
+            <h3>${data.fullName || data.username}</h3>
+            <span class="influencer-location">📍 Instagram</span>
+          </div>
+          <div class="influencer-category">${categoria} ${sustentabilidade}</div>
+          <div class="influencer-stats">
+            <div class="stat">
+              <div class="stat-value">${formatNumber(data.followers)}</div>
+              <div class="stat-label">Seguidores</div>
+              <div class="stat-badge">${porteIcon} ${porte}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">${data.engagementRate}%</div>
+              <div class="stat-label">Engajamento</div>
+              <div class="stat-badge">🎯 Instagram</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">${formatNumber(data.posts)}</div>
+              <div class="stat-label">Posts</div>
+              <div class="stat-badge">📝 Ativo</div>
+            </div>
+          </div>
+          <div class="influencer-rating">
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+            <span class="ranking">${data.verified ? '100.0' : '95.0'}</span>
+            <span class="ranking-label">Ranking</span>
+          </div>
+          <p class="influencer-bio">
+            ${(data.bio || 'Influencer importado do Instagram').substring(0, 120)}...
+          </p>
+          <p class="influencer-lock">
+            🔒 Dados completos (contatos, redes sociais, valores) disponíveis após contratar
+          </p>
+          <button class="btn btn-primary btn-block">Contratar Influencer</button>
+        </div>
+      `;
+      
+      return card;
+    }
+
+    function formatNumber(num) {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+      }
+      return num.toString();
+    }
+
+    function updateInfluencerCount() {
+      const importedCount = JSON.parse(localStorage.getItem('importedInfluencers') || '[]').length;
+      const totalCount = 127 + importedCount;
+      
+      // Atualizar texto "Mostrando X de Y influencers"
+      const countText = document.querySelector('.text-muted');
+      if (countText && countText.textContent.includes('Mostrando')) {
+        const showing = 3 + importedCount;
+        countText.textContent = `Mostrando ${showing} de ${totalCount} influencers`;
+      }
+    }
+  </script>
+  
   <script src="js/download.js"></script>
 </body>
 </html>

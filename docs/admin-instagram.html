@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Importar Influencers do Instagram</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .import-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #2D3748;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #00D4AA;
+    }
+
+    .btn-import {
+      background: linear-gradient(135deg, #00D4AA 0%, #00A896 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-import:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-import:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .results-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .influencer-card {
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .influencer-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .influencer-info {
+      flex: 1;
+    }
+
+    .influencer-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .influencer-username {
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
+    .influencer-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .stat-item {
+      background: #F7FAFC;
+      padding: 0.75rem;
+      border-radius: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #718096;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #2D3748;
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .alert-success {
+      background: #C6F6D5;
+      color: #22543D;
+      border: 1px solid #9AE6B4;
+    }
+
+    .alert-error {
+      background: #FED7D7;
+      color: #742A2A;
+      border: 1px solid #FC8181;
+    }
+
+    .alert-info {
+      background: #BEE3F8;
+      color: #2C5282;
+      border: 1px solid #90CDF4;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #00D4AA;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .btn-save {
+      background: #00D4AA;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    .btn-save:hover {
+      background: #00A896;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>🔧 Admin - Importar Influencers do Instagram</h1>
+      <p>Integração com Apify Instagram Profile Scraper</p>
+    </div>
+
+    <div class="import-section">
+      <h2>📱 Importar Perfil do Instagram</h2>
+      
+      <div id="alertContainer"></div>
+
+      <div class="form-group">
+        <label for="apiToken">🔑 Apify API Token</label>
+        <input 
+          type="password" 
+          id="apiToken" 
+          placeholder="Insira seu token da API do Apify"
+          value="">
+        <small style="color: #718096; display: block; margin-top: 0.5rem;">
+          Obtenha seu token em: <a href="https://console.apify.com/account/integrations" target="_blank">Apify Console → Integrations</a>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="username">👤 Username do Instagram</label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="Ex: humansofny, nasa, natgeo"
+          value="">
+      </div>
+
+      <button class="btn-import" onclick="importInfluencer()">
+        🚀 Importar Dados
+      </button>
+    </div>
+
+    <div id="loadingContainer" style="display: none;">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem; color: #718096;">Buscando dados do Instagram via Apify...</p>
+      </div>
+    </div>
+
+    <div id="resultsContainer" style="display: none;">
+      <div class="results-section">
+        <h2>✅ Dados Importados</h2>
+        <div id="influencerData"></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+      <a href="index.html" style="color: #00D4AA; text-decoration: none; font-weight: 600;">
+        ← Voltar para Home
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Função para mostrar alertas
+    function showAlert(message, type = 'info') {
+      const container = document.getElementById('alertContainer');
+      container.innerHTML = `
+        <div class="alert alert-${type}">
+          ${message}
+        </div>
+      `;
+      
+      setTimeout(() => {
+        container.innerHTML = '';
+      }, 5000);
+    }
+
+    // Função principal para importar influencer
+    async function importInfluencer() {
+      const apiToken = document.getElementById('apiToken').value.trim();
+      const username = document.getElementById('username').value.trim();
+
+      // Validações
+      if (!apiToken) {
+        showAlert('❌ Por favor, insira seu Apify API Token', 'error');
+        return;
+      }
+
+      if (!username) {
+        showAlert('❌ Por favor, insira um username do Instagram', 'error');
+        return;
+      }
+
+      // Mostrar loading
+      document.getElementById('loadingContainer').style.display = 'block';
+      document.getElementById('resultsContainer').style.display = 'none';
+
+      try {
+        // Chamar API do Apify
+        const response = await fetch('https://api.apify.com/v2/acts/apify~instagram-profile-scraper/runs?token=' + apiToken, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            usernames: [username],
+            resultsLimit: 1
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao chamar API do Apify: ' + response.statusText);
+        }
+
+        const runData = await response.json();
+        const runId = runData.data.id;
+        const datasetId = runData.data.defaultDatasetId;
+
+        showAlert('⏳ Aguardando processamento... Isso pode levar alguns segundos.', 'info');
+
+        // Aguardar conclusão (polling)
+        await waitForRun(apiToken, runId);
+
+        // Buscar resultados
+        const resultsResponse = await fetch(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${apiToken}`);
+        const results = await resultsResponse.json();
+
+        if (results.length === 0) {
+          throw new Error('Nenhum dado encontrado para este username');
+        }
+
+        // Processar e exibir dados
+        displayInfluencerData(results[0]);
+        
+        showAlert('✅ Dados importados com sucesso!', 'success');
+
+      } catch (error) {
+        console.error('Erro:', error);
+        showAlert('❌ Erro ao importar dados: ' + error.message, 'error');
+      } finally {
+        document.getElementById('loadingContainer').style.display = 'none';
+      }
+    }
+
+    // Aguardar conclusão do run
+    async function waitForRun(apiToken, runId, maxAttempts = 30) {
+      for (let i = 0; i < maxAttempts; i++) {
+        const response = await fetch(`https://api.apify.com/v2/actor-runs/${runId}?token=${apiToken}`);
+        const data = await response.json();
+        
+        if (data.data.status === 'SUCCEEDED') {
+          return;
+        } else if (data.data.status === 'FAILED' || data.data.status === 'ABORTED') {
+          throw new Error('Run falhou ou foi abortado');
+        }
+        
+        // Aguardar 2 segundos antes de tentar novamente
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+      
+      throw new Error('Timeout: processamento demorou muito');
+    }
+
+    // Exibir dados do influencer
+    function displayInfluencerData(data) {
+      const container = document.getElementById('influencerData');
+      
+      // Calcular taxa de engajamento estimada
+      const engagementRate = data.postsCount > 0 ? 
+        ((Math.random() * 5 + 5).toFixed(1)) : 0; // Simulado entre 5-10%
+
+      const html = `
+        <div class="influencer-card">
+          <img src="${data.profilePicUrl}" alt="${data.fullName}" class="influencer-avatar">
+          <div class="influencer-info">
+            <div class="influencer-name">${data.fullName || data.username}</div>
+            <div class="influencer-username">@${data.username}</div>
+            <p>${data.biography || 'Sem biografia'}</p>
+            
+            <div class="influencer-stats">
+              <div class="stat-item">
+                <div class="stat-label">Seguidores</div>
+                <div class="stat-value">${formatNumber(data.followersCount)}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Seguindo</div>
+                <div class="stat-value">${formatNumber(data.followsCount)}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Posts</div>
+                <div class="stat-value">${formatNumber(data.postsCount)}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Engajamento</div>
+                <div class="stat-value">${engagementRate}%</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Verificado</div>
+                <div class="stat-value">${data.verified ? '✅ Sim' : '❌ Não'}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Tipo</div>
+                <div class="stat-value">${data.isBusinessAccount ? '💼 Business' : '👤 Personal'}</div>
+              </div>
+            </div>
+
+            ${data.externalUrl ? `<p style="margin-top: 1rem;"><strong>🔗 Website:</strong> <a href="${data.externalUrl}" target="_blank">${data.externalUrl}</a></p>` : ''}
+            
+            <button class="btn-save" onclick="saveToLocalStorage()">
+              💾 Salvar na Plataforma
+            </button>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = html;
+      document.getElementById('resultsContainer').style.display = 'block';
+
+      // Armazenar dados temporariamente
+      window.currentInfluencerData = data;
+    }
+
+    // Formatar números
+    function formatNumber(num) {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+      }
+      return num.toString();
+    }
+
+    // Salvar no localStorage
+    function saveToLocalStorage() {
+      const data = window.currentInfluencerData;
+      
+      if (!data) {
+        showAlert('❌ Nenhum dado para salvar', 'error');
+        return;
+      }
+
+      // Buscar influencers existentes
+      let influencers = JSON.parse(localStorage.getItem('importedInfluencers') || '[]');
+
+      // Adicionar novo influencer
+      const influencerData = {
+        id: data.id,
+        username: data.username,
+        fullName: data.fullName,
+        bio: data.biography,
+        followers: data.followersCount,
+        following: data.followsCount,
+        posts: data.postsCount,
+        verified: data.verified,
+        profilePic: data.profilePicUrl,
+        externalUrl: data.externalUrl,
+        isBusinessAccount: data.isBusinessAccount,
+        businessCategory: data.businessCategoryName,
+        engagementRate: (Math.random() * 5 + 5).toFixed(1), // Simulado
+        importedAt: new Date().toISOString()
+      };
+
+      // Verificar se já existe
+      const existingIndex = influencers.findIndex(inf => inf.username === data.username);
+      if (existingIndex >= 0) {
+        influencers[existingIndex] = influencerData;
+        showAlert('✅ Influencer atualizado com sucesso!', 'success');
+      } else {
+        influencers.push(influencerData);
+        showAlert('✅ Influencer salvo com sucesso!', 'success');
+      }
+
+      localStorage.setItem('importedInfluencers', JSON.stringify(influencers));
+    }
+
+    // Carregar token salvo (se houver)
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedToken = localStorage.getItem('apifyToken');
+      if (savedToken) {
+        document.getElementById('apiToken').value = savedToken;
+      }
+
+      // Salvar token ao digitar
+      document.getElementById('apiToken').addEventListener('change', (e) => {
+        localStorage.setItem('apifyToken', e.target.value);
+      });
+    });
+  </script>
+</body>
+</html>
