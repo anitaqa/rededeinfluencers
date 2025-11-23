@@ -690,7 +690,7 @@
     </div>
 
     <!-- Seção de Planos para Empresas -->
-    <div class="plans-section" id="plansSection">
+    <div class="plans-section" id="plansSection" style="display: none;">
       <h2 class="plans-title">Escolha o Plano Ideal para Sua Empresa</h2>
       <p class="plans-subtitle">Conecte-se com influencers sustentáveis e impulsione suas campanhas</p>
       
@@ -1226,10 +1226,14 @@
       // Se tudo estiver válido, mostrar sucesso
       document.getElementById('demoFormContainer').style.display = 'none';
       document.getElementById('successMessage').classList.add('show');
-      document.getElementById('searchSection').style.display = 'block';
       
-      // Rolar para mensagem de sucesso
-      document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+      // Mostrar seção de planos
+      document.getElementById('plansSection').style.display = 'block';
+      
+      // Rolar para seção de planos
+      setTimeout(() => {
+        document.getElementById('plansSection').scrollIntoView({ behavior: 'smooth' });
+      }, 1000);
       
       // Esconder mensagem de sucesso após 8 segundos
       setTimeout(() => {
