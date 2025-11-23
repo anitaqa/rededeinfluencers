@@ -963,3 +963,298 @@ input[type="checkbox"] {
     appearance: none;
   }
 }
+
+/* ========== MOBILE ENHANCEMENTS ========== */
+
+/* Touch-friendly elements */
+@media (max-width: 768px) {
+  /* Increase touch targets */
+  .btn,
+  button,
+  a.btn,
+  input[type="submit"],
+  input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  /* Forms */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevent iOS zoom on focus */
+    min-height: 44px;
+  }
+  
+  .filter-select {
+    font-size: 16px !important;
+    padding: 0.875rem;
+  }
+  
+  /* Tables - horizontal scroll */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Navigation menu - mobile */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links a {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  
+  /* Plans grid - stack vertically */
+  .plans-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-lg);
+  }
+  
+  .plan-card {
+    max-width: 100%;
+  }
+  
+  /* Dashboard layouts */
+  .dashboard-grid,
+  .metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Modal/Dialog full screen on mobile */
+  .modal,
+  .dialog {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+  
+  /* Hide desktop-only elements */
+  .desktop-only {
+    display: none !important;
+  }
+  
+  /* Show mobile-only elements */
+  .mobile-only {
+    display: block !important;
+  }
+  
+  /* Sticky header on mobile */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-bg-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Checkout/Payment forms */
+  .checkout-container,
+  .payment-form {
+    padding: var(--spacing-md);
+  }
+  
+  /* Influencer profile cards - compact */
+  .influencer-card {
+    padding: var(--spacing-md);
+  }
+  
+  .influencer-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .influencer-avatar {
+    margin: 0 auto var(--spacing-md);
+  }
+  
+  /* Search section - full width */
+  .search-section {
+    padding: var(--spacing-md);
+  }
+  
+  /* Results grid */
+  .results-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Campaign cards */
+  .campaign-card {
+    padding: var(--spacing-md);
+  }
+  
+  .campaign-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  /* Metrics cards */
+  .metric-card {
+    padding: var(--spacing-md);
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Extra small devices (iPhone SE, small Androids) */
+@media (max-width: 375px) {
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  
+  .card {
+    padding: var(--spacing-md);
+  }
+  
+  /* Compact stats */
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* Landscape orientation fixes */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    padding: var(--spacing-lg) 0;
+  }
+  
+  .modal,
+  .dialog {
+    overflow-y: auto;
+  }
+}
+
+/* Android-specific fixes */
+@media (max-width: 768px) {
+  /* Fix Android input zoom */
+  input,
+  select,
+  textarea {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Smooth scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent text selection on buttons */
+  .btn,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+}
+
+/* High DPI screens (Retina, high-res Android) */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders */
+  .card,
+  .btn,
+  input,
+  select {
+    border-width: 0.5px;
+  }
+}
+
+/* ========== UTILITY CLASSES FOR RESPONSIVE ========== */
+
+/* Responsive grid utilities */
+.grid-responsive-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .grid-responsive-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive flex utilities */
+.flex-responsive {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .flex-responsive {
+    flex-direction: column;
+  }
+}
+
+/* Hide/Show utilities */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Spacing utilities for mobile */
+@media (max-width: 768px) {
+  .mobile-p-sm { padding: var(--spacing-sm) !important; }
+  .mobile-p-md { padding: var(--spacing-md) !important; }
+  .mobile-p-lg { padding: var(--spacing-lg) !important; }
+  
+  .mobile-m-sm { margin: var(--spacing-sm) !important; }
+  .mobile-m-md { margin: var(--spacing-md) !important; }
+  .mobile-m-lg { margin: var(--spacing-lg) !important; }
+  
+  .mobile-mt-0 { margin-top: 0 !important; }
+  .mobile-mb-0 { margin-bottom: 0 !important; }
+}
+
+/* Text alignment for mobile */
+@media (max-width: 768px) {
+  .mobile-text-center { text-align: center !important; }
+  .mobile-text-left { text-align: left !important; }
+}
+
+/* Width utilities for mobile */
+@media (max-width: 768px) {
+  .mobile-w-full { width: 100% !important; }
+  .mobile-max-w-full { max-width: 100% !important; }
+}
