@@ -751,79 +751,27 @@
         }
       }
       
-      // Se tem Instagram, validar via Apify
+      // Se tem Instagram, tentar validar via Apify (mas não bloqueia)
       if (instagramUsername) {
         // Mostrar mensagem de validação
         document.getElementById('successMessage').textContent = '🔍 Validando perfil do Instagram...';
         document.getElementById('successMessage').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
-        try {
-          // Buscar token do Apify (DEVE estar salvo no localStorage)
-          const apifyToken = localStorage.getItem('apifyToken');
-          
-          if (!apifyToken) {
-            throw new Error('Token do Apify não configurado. Por favor, configure em admin-instagram.html primeiro.');
-          }
-          
-          // Chamar API do Apify
-          const response = await fetch(`https://api.apify.com/v2/acts/apify~instagram-profile-scraper/runs?token=${apifyToken}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              usernames: [instagramUsername],
-              resultsLimit: 1
+        // Tentar validar em background (não espera)
+        const apifyToken = localStorage.getItem('apifyToken');
+        
+        if (apifyToken) {
+          // Inicia validação em background (promise não bloqueante)
+          validateInstagramInBackground(apifyToken, instagramUsername, cadastroData)
+            .then(() => {
+              console.log('Instagram validado com sucesso!');
             })
-          });
-          
-          if (!response.ok) {
-            throw new Error('Erro ao validar Instagram');
-          }
-          
-          const runData = await response.json();
-          const runId = runData.data.id;
-          const datasetId = runData.data.defaultDatasetId;
-          
-          // Atualizar mensagem
-          document.getElementById('successMessage').textContent = '⏳ Buscando dados do Instagram... Aguarde ~10 segundos';
-          
-          // Aguardar conclusão (polling)
-          await waitForApifyRun(apifyToken, runId);
-          
-          // Buscar resultados
-          const resultsResponse = await fetch(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${apifyToken}`);
-          const results = await resultsResponse.json();
-          
-          if (results.length > 0) {
-            const instagramData = results[0];
-            
-            // Adicionar dados do Instagram ao cadastro
-            cadastroData.instagramData = {
-              username: instagramData.username,
-              fullName: instagramData.fullName,
-              followers: instagramData.followersCount,
-              following: instagramData.followsCount,
-              posts: instagramData.postsCount,
-              verified: instagramData.verified,
-              profilePic: instagramData.profilePicUrl,
-              bio: instagramData.biography,
-              engagementRate: (Math.random() * 5 + 5).toFixed(1), // Calculado
-              isBusinessAccount: instagramData.isBusinessAccount,
-              validatedAt: new Date().toISOString()
-            };
-            
-            document.getElementById('successMessage').textContent = '✅ Perfil validado com sucesso! Seguidores: ' + formatNumber(instagramData.followersCount);
-          } else {
-            // Sem dados, mas continua cadastro
-            document.getElementById('successMessage').textContent = '⚠️ Não foi possível validar o Instagram, mas o cadastro continuará...';
-          }
-          
-        } catch (error) {
-          console.error('Erro na validação:', error);
-          // Continua cadastro mesmo com erro
-          document.getElementById('successMessage').textContent = '⚠️ Erro ao validar Instagram, mas o cadastro continuará...';
+            .catch(err => {
+              console.warn('Erro na validação do Instagram:', err);
+            });
+        } else {
+          console.warn('Token do Apify não configurado - pulando validação');
         }
       }
       
@@ -852,6 +800,64 @@
         }
       }, 1000);
     });
+    
+    // Função para validar Instagram em background (não bloqueante)
+    async function validateInstagramInBackground(apiToken, username, cadastroData) {
+      try {
+        // Chamar API do Apify
+        const response = await fetch(`https://api.apify.com/v2/acts/apify~instagram-profile-scraper/runs?token=${apiToken}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            usernames: [username],
+            resultsLimit: 1
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Erro ao chamar API');
+        }
+        
+        const runData = await response.json();
+        const runId = runData.data.id;
+        const datasetId = runData.data.defaultDatasetId;
+        
+        // Aguardar conclusão
+        await waitForApifyRun(apiToken, runId);
+        
+        // Buscar resultados
+        const resultsResponse = await fetch(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${apiToken}`);
+        const results = await resultsResponse.json();
+        
+        if (results.length > 0) {
+          const instagramData = results[0];
+          
+          // Atualizar dados no localStorage
+          const currentData = JSON.parse(localStorage.getItem('cadastroInfluencer') || '{}');
+          currentData.instagramData = {
+            username: instagramData.username,
+            fullName: instagramData.fullName,
+            followers: instagramData.followersCount,
+            following: instagramData.followsCount,
+            posts: instagramData.postsCount,
+            verified: instagramData.verified,
+            profilePic: instagramData.profilePicUrl,
+            bio: instagramData.biography,
+            engagementRate: (Math.random() * 5 + 5).toFixed(1),
+            isBusinessAccount: instagramData.isBusinessAccount,
+            validatedAt: new Date().toISOString()
+          };
+          localStorage.setItem('cadastroInfluencer', JSON.stringify(currentData));
+          
+          console.log('Instagram validado:', instagramData.username, 'Seguidores:', instagramData.followersCount);
+        }
+      } catch (error) {
+        console.error('Erro na validação em background:', error);
+        throw error;
+      }
+    }
     
     // Função auxiliar para aguardar conclusão do run do Apify
     async function waitForApifyRun(apiToken, runId, maxAttempts = 30) {
