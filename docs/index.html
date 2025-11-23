@@ -24,14 +24,14 @@
         </a>
         
         <nav class="nav">
-          <a href="#buscar" class="nav-link active">Buscar Influencers</a>
+          <a href="buscar-influencers.html" class="nav-link active">Para Empresas</a>
           <a href="#como-funciona" class="nav-link">Como Funciona</a>
           <a href="#sustentabilidade" class="nav-link">Sustentabilidade</a>
           <a href="#contato" class="nav-link">Contato</a>
         </nav>
         
         <div class="flex gap-md">
-          <a href="login.html" class="btn btn-ghost">Entrar</a>
+          <a href="#" class="btn btn-ghost" id="btnEntrar">Entrar</a>
           <a href="cadastro-influencer.html" class="btn btn-primary">Cadastrar</a>
         </div>
       </div>
@@ -47,8 +47,8 @@
         com métricas reais de engajamento e compromisso com a sustentabilidade.
       </p>
       <div class="hero-cta">
-        <a href="#buscar" class="btn btn-primary btn-lg">Buscar Influencers</a>
-        <a href="cadastro-influencer.html" class="btn btn-outline btn-lg">Cadastrar como Influencer</a>
+        <a href="buscar-influencers.html" class="btn btn-primary btn-lg">Buscar Influencers</a>
+        <a href="gateway-pagamento.html" class="btn btn-outline btn-lg">Cadastrar como Influencer</a>
       </div>
     </div>
   </section>
@@ -661,7 +661,49 @@
     </button>
   </div>
 
+  <!-- Modal de Login -->
+  <div id="modalLogin" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="background: white; border-radius: 16px; padding: 2rem; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+      <h2 style="margin: 0 0 1rem 0; font-size: 1.5rem; color: var(--text-primary);">Escolha seu perfil</h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Como você deseja acessar a plataforma?</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="login.html" class="btn btn-primary" style="width: 100%; text-align: center; padding: 1rem;">
+          💼 Sou Empresa
+        </a>
+        <a href="login.html" class="btn btn-outline" style="width: 100%; text-align: center; padding: 1rem;">
+          ⭐ Sou Influencer
+        </a>
+      </div>
+      
+      <button onclick="fecharModal()" style="margin-top: 1.5rem; background: none; border: none; color: var(--text-muted); cursor: pointer; width: 100%; padding: 0.5rem;">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
   <!-- Scripts -->
+  <script>
+    // Modal de Login
+    const btnEntrar = document.getElementById('btnEntrar');
+    const modalLogin = document.getElementById('modalLogin');
+    
+    btnEntrar.addEventListener('click', function(e) {
+      e.preventDefault();
+      modalLogin.style.display = 'flex';
+    });
+    
+    function fecharModal() {
+      modalLogin.style.display = 'none';
+    }
+    
+    // Fechar modal ao clicar fora
+    modalLogin.addEventListener('click', function(e) {
+      if (e.target === modalLogin) {
+        fecharModal();
+      }
+    });
+  </script>
   <script src="js/download.js"></script>
 </body>
 </html>
