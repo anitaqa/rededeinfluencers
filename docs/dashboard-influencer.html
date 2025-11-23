@@ -577,7 +577,7 @@
         <div class="stat-card">
           <div class="stat-header">
             <div>
-              <div class="stat-value">45.2K</div>
+              <div class="stat-value" id="followersCount">45.2K</div>
               <div class="stat-label">Total de Seguidores</div>
               <div class="stat-change positive">↑ 8.5% este mês</div>
             </div>
@@ -588,7 +588,7 @@
         <div class="stat-card">
           <div class="stat-header">
             <div>
-              <div class="stat-value">8.6%</div>
+              <div class="stat-value" id="engagementRate">8.6%</div>
               <div class="stat-label">Taxa de Engajamento</div>
               <div class="stat-change positive">↑ 1.2%</div>
             </div>
@@ -599,7 +599,7 @@
         <div class="stat-card">
           <div class="stat-header">
             <div>
-              <div class="stat-value">R$ 12.5K</div>
+              <div class="stat-value" id="monthlyRevenue">R$ 12.5K</div>
               <div class="stat-label">Receita este Mês</div>
               <div class="stat-change positive">↑ 23%</div>
             </div>
@@ -755,7 +755,57 @@
       }
     }
     
+    // Carregar dados do Instagram do localStorage
+    function loadInstagramData() {
+      const cadastroData = JSON.parse(localStorage.getItem('cadastroInfluencer') || '{}');
+      
+      if (cadastroData.instagramData) {
+        const ig = cadastroData.instagramData;
+        
+        // Atualizar seguidores
+        if (ig.followers) {
+          document.getElementById('followersCount').textContent = formatNumber(ig.followers);
+        }
+        
+        // Atualizar engajamento
+        if (ig.engagementRate) {
+          document.getElementById('engagementRate').textContent = ig.engagementRate + '%';
+        }
+        
+        // Log para debug
+        console.log('📊 Dados do Instagram carregados:', {
+          username: ig.username,
+          followers: ig.followers,
+          posts: ig.posts,
+          engagement: ig.engagementRate,
+          verified: ig.verified,
+          validatedAt: ig.validatedAt
+        });
+        
+        // Mostrar badge de verificado se aplicável
+        if (ig.verified) {
+          const verifiedBadge = document.createElement('span');
+          verifiedBadge.textContent = ' ✅';
+          verifiedBadge.title = 'Perfil verificado no Instagram';
+          document.querySelector('.user-name').appendChild(verifiedBadge);
+        }
+      } else {
+        console.log('⚠️ Nenhum dado do Instagram encontrado no localStorage');
+      }
+    }
+    
+    // Função auxiliar para formatar números
+    function formatNumber(num) {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+      }
+      return num.toString();
+    }
+    
     // Carregar ao iniciar
+    loadInstagramData();
     loadSustainabilityData();
   </script>
 </body>
