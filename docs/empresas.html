@@ -673,8 +673,8 @@
     </div>
     <nav class="nav-links">
       <a href="#plansSection">Buscar Influencers</a>
-      <a href="checkout-empresa.html?plano=avancado">Criar Campanha</a>
-      <a href="checkout-empresa.html?plano=avancado">Minhas Campanhas</a>
+      <a href="#" onclick="alert('🚀 Recurso disponível no Plano Avançado!\n\nContrate o Plano Avançado para criar e gerenciar campanhas completas com métricas em tempo real.'); document.getElementById('plansSection').scrollIntoView({ behavior: 'smooth' }); return false;">Criar Campanha</a>
+      <a href="#" onclick="alert('📊 Recurso disponível no Plano Avançado!\n\nContrate o Plano Avançado para acessar o dashboard de campanhas e acompanhar todas as suas métricas.'); document.getElementById('plansSection').scrollIntoView({ behavior: 'smooth' }); return false;">Minhas Campanhas</a>
       <a href="index.html">Home</a>
     </nav>
   </div>
@@ -779,8 +779,58 @@
       </div>
     </div>
 
+    <!-- Seção Quem Usa -->
+    <div class="section" id="quemUsa" style="background: var(--color-bg-secondary); padding: var(--spacing-3xl) 0;">
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: var(--spacing-md); color: var(--color-text-primary);">🏢 Empresas que Confiam na Nossa Solução</h2>
+        <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: var(--spacing-2xl); max-width: 600px; margin-left: auto; margin-right: auto;">
+          Grandes marcas já estão conectando-se com influencers sustentáveis e impulsionando suas campanhas
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xl); align-items: center; margin-bottom: var(--spacing-2xl);">
+          <!-- Placeholder para logos de empresas -->
+          <div style="background: var(--color-bg-card); padding: var(--spacing-xl); border-radius: var(--radius-md); text-align: center; border: 2px solid var(--color-border);">
+            <div style="font-size: 2rem; margin-bottom: var(--spacing-sm);">🌿</div>
+            <p style="color: var(--color-text-secondary); font-weight: 600;">EcoFashion Brasil</p>
+          </div>
+          
+          <div style="background: var(--color-bg-card); padding: var(--spacing-xl); border-radius: var(--radius-md); text-align: center; border: 2px solid var(--color-border);">
+            <div style="font-size: 2rem; margin-bottom: var(--spacing-sm);">♻️</div>
+            <p style="color: var(--color-text-secondary); font-weight: 600;">GreenLife Cosméticos</p>
+          </div>
+          
+          <div style="background: var(--color-bg-card); padding: var(--spacing-xl); border-radius: var(--radius-md); text-align: center; border: 2px solid var(--color-border);">
+            <div style="font-size: 2rem; margin-bottom: var(--spacing-sm);">🌱</div>
+            <p style="color: var(--color-text-secondary); font-weight: 600;">Sustenta Alimentos</p>
+          </div>
+          
+          <div style="background: var(--color-bg-card); padding: var(--spacing-xl); border-radius: var(--radius-md); text-align: center; border: 2px solid var(--color-border);">
+            <div style="font-size: 2rem; margin-bottom: var(--spacing-sm);">🌍</div>
+            <p style="color: var(--color-text-secondary); font-weight: 600;">Planeta Consciente</p>
+          </div>
+        </div>
+        
+        <!-- Depoimentos -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-2xl);">
+          <div style="background: var(--color-bg-card); padding: var(--spacing-xl); border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
+            <p style="color: var(--color-text-secondary); font-style: italic; margin-bottom: var(--spacing-md);">
+              "Aumentamos nosso engajamento em 300% conectando-se com influencers realmente alinhados com nossos valores sustentáveis."
+            </p>
+            <p style="color: var(--color-primary); font-weight: 600;">— Maria Silva, CMO EcoFashion</p>
+          </div>
+          
+          <div style="background: var(--color-bg-card); padding: var(--spacing-xl); border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
+            <p style="color: var(--color-text-secondary); font-style: italic; margin-bottom: var(--spacing-md);">
+              "A plataforma nos ajudou a encontrar influencers autênticos que realmente fazem diferença nas nossas campanhas."
+            </p>
+            <p style="color: var(--color-primary); font-weight: 600;">— João Santos, Diretor GreenLife</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Formulário de DEMO (oculto inicialmente) -->
-    <div class="demo-form-container" id="demoFormContainer" style="display: none;">
+    <div class="demo-form-container" id="demoFormContainer" data-section="demo" style="display: none;">
       <div class="demo-form">
         <h2 class="demo-title">📅 Agende uma DEMO Gratuita</h2>
         <p class="demo-subtitle">Preencha o formulário e nossa equipe entrará em contato</p>
