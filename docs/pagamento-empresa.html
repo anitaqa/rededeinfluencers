@@ -409,9 +409,18 @@
       
       alert(`✅ Pagamento Processado com Sucesso!\n\nPlano: ${planoNome}\nValor: ${planoPreco}/mês\nMétodo: ${selectedMethod === 'credit' ? 'Cartão de Crédito' : selectedMethod === 'pix' ? 'PIX' : 'Boleto'}\n\n🎉 Bem-vindo à Rede de Influencers!\n\nVocê receberá um email com os próximos passos.`);
       
-      // Redirecionar para dashboard
+      // Redirecionar baseado no plano
       setTimeout(() => {
-        window.location.href = 'dashboard-empresa.html';
+        if (plano === 'basico') {
+          // Plano Básico: Buscar influencers
+          window.location.href = 'resultados-influencers.html';
+        } else if (plano === 'avancado') {
+          // Plano Avançado: Criar campanha
+          window.location.href = 'criar-campanha.html';
+        } else {
+          // Fallback: Dashboard
+          window.location.href = 'dashboard-empresa.html';
+        }
       }, 2000);
     }
   </script>
