@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Campanha - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="LOGORI.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #4a5568;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #10b981;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #4a5568;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 0;
+    }
+
+    .step {
+      text-align: center;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin: 0 auto 0.5rem;
+      color: #4a5568;
+    }
+
+    .step.active .step-number {
+      background: #10b981;
+      border-color: #10b981;
+      color: white;
+    }
+
+    .step-label {
+      font-size: 0.85rem;
+      color: #4a5568;
+    }
+
+    .form-section {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: #1a202c;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .info-box {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .info-box-title {
+      font-weight: 700;
+      color: #059669;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-box-text {
+      color: #065f46;
+      font-size: 0.9rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .steps {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .steps::before {
+        display: none;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
+    <nav class="nav-links">
+      <a href="buscar-influencers.html">Buscar Influencers</a>
+      <a href="criar-campanha.html">Criar Campanha</a>
+      <a href="dashboard-empresa.html">Minhas Campanhas</a>
+      <a href="index.html">Sair</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <h1>🎯 Criar Nova Campanha</h1>
+    <p class="subtitle">Plano Completo - Gestão automatizada de ponta a ponta</p>
+
+    <div class="steps">
+      <div class="step active">
+        <div class="step-number">1</div>
+        <div class="step-label">Briefing</div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-label">Convites</div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-label">Aprovação</div>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-label">Pagamento</div>
+      </div>
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-label">Métricas</div>
+      </div>
+    </div>
+
+    <form id="campaignForm">
+      <!-- Informações Básicas -->
+      <div class="form-section">
+        <div class="section-title">📋 Informações Básicas</div>
+        
+        <div class="form-grid">
+          <div class="form-group form-group-full">
+            <label for="nomeCampanha">Nome da Campanha *</label>
+            <input type="text" id="nomeCampanha" placeholder="Ex: Lançamento Coleção Verão 2024">
+          </div>
+
+          <div class="form-group">
+            <label for="nicho">Nicho / Categoria *</label>
+            <select id="nicho">
+              <option value="">Selecione...</option>
+              <option value="moda">Moda Sustentável</option>
+              <option value="zerowaste">Zero Waste</option>
+              <option value="lifestyle">Lifestyle Sustentável</option>
+              <option value="beleza">Beleza Natural</option>
+              <option value="alimentacao">Alimentação Saudável</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="orcamento">Orçamento Total (R$) *</label>
+            <input type="number" id="orcamento" placeholder="Ex: 15000" min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="dataInicio">Data de Início *</label>
+            <input type="date" id="dataInicio">
+          </div>
+
+          <div class="form-group">
+            <label for="dataFim">Data de Término *</label>
+            <input type="date" id="dataFim">
+          </div>
+        </div>
+      </div>
+
+      <!-- Briefing da Campanha -->
+      <div class="form-section">
+        <div class="section-title">📝 Briefing da Campanha</div>
+        
+        <div class="form-grid">
+          <div class="form-group form-group-full">
+            <label for="objetivo">Objetivo da Campanha *</label>
+            <textarea id="objetivo" placeholder="Descreva o objetivo principal da campanha (ex: aumentar awareness, gerar vendas, lançar produto...)"></textarea>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="publicoAlvo">Público-Alvo *</label>
+            <textarea id="publicoAlvo" placeholder="Descreva o público que você quer atingir (idade, gênero, interesses, localização...)"></textarea>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="mensagemChave">Mensagem-Chave *</label>
+            <textarea id="mensagemChave" placeholder="Qual a mensagem principal que deve ser comunicada?"></textarea>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="diretrizes">Diretrizes de Conteúdo</label>
+            <textarea id="diretrizes" placeholder="Hashtags obrigatórias, menções, tom de voz, o que evitar..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critérios de Seleção -->
+      <div class="form-section">
+        <div class="section-title">🎯 Critérios de Seleção de Influencers</div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="alcanceMinimo">Alcance Mínimo</label>
+            <select id="alcanceMinimo">
+              <option value="">Qualquer alcance</option>
+              <option value="nano">Até 50K (Nano)</option>
+              <option value="micro">50K - 200K (Micro)</option>
+              <option value="macro">200K+ (Macro)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="engajamentoMinimo">Engajamento Mínimo (%)</label>
+            <input type="number" id="engajamentoMinimo" placeholder="Ex: 5" min="0" max="100" step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label for="localizacao">Localização</label>
+            <select id="localizacao">
+              <option value="">Todas as localizações</option>
+              <option value="sp">São Paulo</option>
+              <option value="rj">Rio de Janeiro</option>
+              <option value="mg">Minas Gerais</option>
+              <option value="pr">Paraná</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="quantidadeInfluencers">Quantidade de Influencers *</label>
+            <input type="number" id="quantidadeInfluencers" placeholder="Ex: 5" min="1">
+          </div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-box-title">💡 Como funciona?</div>
+          <div class="info-box-text">
+            Após criar a campanha, a plataforma automaticamente:<br>
+            1️⃣ Convida influencers que atendem aos critérios<br>
+            2️⃣ Influencers criam e enviam propostas de conteúdo<br>
+            3️⃣ Você aprova os posts e influencers<br>
+            4️⃣ Realiza o pagamento via plataforma<br>
+            5️⃣ Acompanha métricas em tempo real
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a href="dashboard-empresa.html" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Criar Campanha e Enviar Convites</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('campaignForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const nomeCampanha = document.getElementById('nomeCampanha').value;
+      const orcamento = document.getElementById('orcamento').value;
+      const quantidadeInfluencers = document.getElementById('quantidadeInfluencers').value;
+
+      if (!nomeCampanha || !orcamento || !quantidadeInfluencers) {
+        alert('⚠️ Por favor, preencha todos os campos obrigatórios (*)');
+        return;
+      }
+
+      alert(`✅ Campanha "${nomeCampanha}" criada com sucesso!\n\n` +
+            `💰 Orçamento: R$ ${orcamento}\n` +
+            `👥 Influencers: ${quantidadeInfluencers}\n\n` +
+            `🚀 Próximos passos:\n` +
+            `1. Plataforma está enviando convites para influencers qualificados\n` +
+            `2. Você receberá notificações quando receberem propostas\n` +
+            `3. Acesse "Minhas Campanhas" para acompanhar\n\n` +
+            `Em produção, você seria redirecionado para o dashboard de acompanhamento.`);
+      
+      // Redirecionar para dashboard
+      window.location.href = 'dashboard-empresa.html';
+    });
+  </script>
+</body>
+</html>

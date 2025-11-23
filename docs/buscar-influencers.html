@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Influencers - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="LOGORI.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #4a5568;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #10b981;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #4a5568;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-section {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .filter-group select:focus,
+    .filter-group input:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .results-count {
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .influencer-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .influencer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      border-color: #10b981;
+    }
+
+    .card-header {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      font-weight: bold;
+    }
+
+    .card-info {
+      flex: 1;
+    }
+
+    .influencer-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.25rem;
+    }
+
+    .influencer-category {
+      color: #10b981;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .influencer-location {
+      color: #4a5568;
+      font-size: 0.85rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 12px;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: #4a5568;
+      margin-top: 0.25rem;
+    }
+
+    .roi-section {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .roi-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+
+    .roi-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .roi-description {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-top: 0.5rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn-small {
+      flex: 1;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #10b981;
+      border: 2px solid #10b981;
+    }
+
+    .btn-outline:hover {
+      background: #10b981;
+      color: white;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
+    <nav class="nav-links">
+      <a href="buscar-influencers.html">Buscar Influencers</a>
+      <a href="criar-campanha.html">Criar Campanha</a>
+      <a href="dashboard-empresa.html">Minhas Campanhas</a>
+      <a href="index.html">Sair</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <h1>🔍 Buscar Influencers</h1>
+    <p class="subtitle">Encontre os influencers perfeitos para sua campanha com base em nicho, alcance e ROI estimado</p>
+
+    <div class="search-section">
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label for="nicho">Nicho / Categoria</label>
+          <select id="nicho">
+            <option value="">Todos os nichos</option>
+            <option value="moda">Moda Sustentável</option>
+            <option value="zerowaste">Zero Waste</option>
+            <option value="lifestyle">Lifestyle Sustentável</option>
+            <option value="beleza">Beleza Natural</option>
+            <option value="alimentacao">Alimentação Saudável</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="alcance">Alcance Mínimo</label>
+          <select id="alcance">
+            <option value="">Qualquer alcance</option>
+            <option value="nano">Até 50K (Nano)</option>
+            <option value="micro">50K - 200K (Micro)</option>
+            <option value="macro">200K+ (Macro)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="orcamento">Orçamento da Campanha</label>
+          <input type="number" id="orcamento" placeholder="Ex: 5000" min="0">
+        </div>
+
+        <div class="filter-group">
+          <label for="localizacao">Localização</label>
+          <select id="localizacao">
+            <option value="">Todas as localizações</option>
+            <option value="sp">São Paulo</option>
+            <option value="rj">Rio de Janeiro</option>
+            <option value="mg">Minas Gerais</option>
+            <option value="pr">Paraná</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="buscarInfluencers()">
+        🔍 Buscar Influencers
+      </button>
+    </div>
+
+    <div class="results-header">
+      <div class="results-count">
+        <strong>12 influencers</strong> encontrados
+      </div>
+    </div>
+
+    <div class="results-grid">
+      <!-- Influencer 1 -->
+      <div class="influencer-card">
+        <div class="card-header">
+          <div class="avatar">GN</div>
+          <div class="card-info">
+            <div class="influencer-name">Giovanna N.</div>
+            <div class="influencer-category">🌱 Moda Sustentável</div>
+            <div class="influencer-location">📍 São Paulo, SP</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">146K</div>
+            <div class="metric-label">Seguidores (Top 3)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">9.1%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">987</div>
+            <div class="metric-label">Posts</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">⭐ 100</div>
+            <div class="metric-label">Ranking</div>
+          </div>
+        </div>
+
+        <div class="roi-section">
+          <div class="roi-label">ROI Estimado</div>
+          <div class="roi-value">R$ 4,20</div>
+          <div class="roi-description">Para cada R$ 1,00 investido</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-outline btn-small" onclick="verPerfil('giovanna')">
+            Ver Perfil Completo
+          </button>
+          <button class="btn btn-primary btn-small" onclick="contratar('giovanna')">
+            Contratar
+          </button>
+        </div>
+      </div>
+
+      <!-- Influencer 2 -->
+      <div class="influencer-card">
+        <div class="card-header">
+          <div class="avatar">CM</div>
+          <div class="card-info">
+            <div class="influencer-name">Cristal M.</div>
+            <div class="influencer-category">♻️ Zero Waste</div>
+            <div class="influencer-location">📍 Rio de Janeiro, RJ</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">260K</div>
+            <div class="metric-label">Seguidores (Top 3)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">8.9%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1.4K</div>
+            <div class="metric-label">Posts</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">⭐ 98.5</div>
+            <div class="metric-label">Ranking</div>
+          </div>
+        </div>
+
+        <div class="roi-section">
+          <div class="roi-label">ROI Estimado</div>
+          <div class="roi-value">R$ 5,80</div>
+          <div class="roi-description">Para cada R$ 1,00 investido</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-outline btn-small" onclick="verPerfil('cristal')">
+            Ver Perfil Completo
+          </button>
+          <button class="btn btn-primary btn-small" onclick="contratar('cristal')">
+            Contratar
+          </button>
+        </div>
+      </div>
+
+      <!-- Influencer 3 -->
+      <div class="influencer-card">
+        <div class="card-header">
+          <div class="avatar">AM</div>
+          <div class="card-info">
+            <div class="influencer-name">Aline M.</div>
+            <div class="influencer-category">🌿 Lifestyle Sustentável</div>
+            <div class="influencer-location">📍 Curitiba, PR</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">143K</div>
+            <div class="metric-label">Seguidores (Top 3)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">10.5%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1.4K</div>
+            <div class="metric-label">Posts</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">⭐ 100</div>
+            <div class="metric-label">Ranking</div>
+          </div>
+        </div>
+
+        <div class="roi-section">
+          <div class="roi-label">ROI Estimado</div>
+          <div class="roi-value">R$ 6,50</div>
+          <div class="roi-description">Para cada R$ 1,00 investido</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-outline btn-small" onclick="verPerfil('aline')">
+            Ver Perfil Completo
+          </button>
+          <button class="btn btn-primary btn-small" onclick="contratar('aline')">
+            Contratar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function buscarInfluencers() {
+      const nicho = document.getElementById('nicho').value;
+      const alcance = document.getElementById('alcance').value;
+      const orcamento = document.getElementById('orcamento').value;
+      const localizacao = document.getElementById('localizacao').value;
+
+      alert(`🔍 Buscando influencers...\n\nNicho: ${nicho || 'Todos'}\nAlcance: ${alcance || 'Qualquer'}\nOrçamento: R$ ${orcamento || 'Não definido'}\nLocalização: ${localizacao || 'Todas'}\n\nEm produção, esta busca seria feita via API com filtros reais.`);
+    }
+
+    function verPerfil(influencer) {
+      alert(`📊 Ver Perfil Completo de ${influencer}\n\nEm produção, você seria redirecionado para uma página com:\n- Dados completos de contato\n- Portfólio\n- Métricas detalhadas\n- Histórico de campanhas`);
+    }
+
+    function contratar(influencer) {
+      alert(`💼 Contratar ${influencer}\n\nEm produção, você seria redirecionado para:\n- Página de pagamento\n- Definir detalhes da campanha\n- Assinar contrato\n\nPor enquanto, esta é apenas uma demonstração.`);
+    }
+  </script>
+</body>
+</html>
