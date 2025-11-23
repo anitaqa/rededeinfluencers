@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Influencers - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="LOGORI.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #4a5568;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #10b981;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #4a5568;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-section {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .filter-group select:focus,
+    .filter-group input:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .results-count {
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .influencer-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .influencer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      border-color: #10b981;
+    }
+
+    .card-header {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      font-weight: bold;
+    }
+
+    .card-info {
+      flex: 1;
+    }
+
+    .influencer-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.25rem;
+    }
+
+    .influencer-category {
+      color: #10b981;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .influencer-location {
+      color: #4a5568;
+      font-size: 0.85rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 12px;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: #4a5568;
+      margin-top: 0.25rem;
+    }
+
+    .roi-section {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .roi-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+
+    .roi-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .roi-description {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-top: 0.5rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn-small {
+      flex: 1;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #10b981;
+      border: 2px solid #10b981;
+    }
+
+    .btn-outline:hover {
+      background: #10b981;
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 20px;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+    }
+
+    .btn-hero {
+      background: white;
+      color: #10b981;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Demo Form */
+    .demo-form-container {
+      margin-bottom: 3rem;
+    }
+
+    .demo-form {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .demo-title {
+      font-size: 2rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .demo-subtitle {
+      color: #4a5568;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    /* Validação de Campos */
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    .form-group input.success,
+    .form-group select.success {
+      border-color: #10b981;
+      background-color: #f0fdf4;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    /* Mensagem de Sucesso */
+    .success-message {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 2rem;
+      display: none;
+      animation: slideDown 0.5s ease;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .success-message h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-message p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Plans Section */
+    .plans-section {
+      margin: 3rem 0;
+      padding: 2rem 0;
+    }
+
+    .plans-title {
+      font-size: 2rem;
+      color: #1a202c;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .plans-subtitle {
+      text-align: center;
+      color: #4a5568;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 3px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .plan-featured {
+      border-color: #10b981;
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);
+    }
+
+    .plan-featured:hover {
+      box-shadow: 0 15px 50px rgba(16, 185, 129, 0.3);
+    }
+
+    .plan-badge {
+      background: #e2e8f0;
+      color: #4a5568;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .plan-badge-featured {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .plan-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .plan-name {
+      font-size: 1.75rem;
+      color: #1a202c;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .plan-description {
+      text-align: center;
+      color: #4a5568;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .plan-features {
+      margin-bottom: 2rem;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      color: #2d3748;
+    }
+
+    .feature-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .btn-plan {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-plan:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-plan-featured {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    }
+
+    .btn-plan-featured:hover {
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.5);
+    }
+
+    /* Alert Box */
+    .alert-box {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .alert-box.show {
+      display: block;
+    }
+
+    .alert-error {
+      background-color: #fef2f2;
+      border: 2px solid #ef4444;
+      color: #991b1b;
+    }
+
+    .alert-success {
+      background-color: #f0fdf4;
+      border: 2px solid #10b981;
+      color: #065f46;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #4a5568; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#4a5568'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Home
+      </a>
+      <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
+    </div>
+    <nav class="nav-links">
+      <a href="empresas.html">Buscar Influencers</a>
+      <a href="checkout-empresa.html?plano=avancado">Criar Campanha</a>
+      <a href="checkout-empresa.html?plano=avancado">Minhas Campanhas</a>
+      <a href="index.html">Home</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <!-- Hero Section - Agende uma DEMO -->
+    <div class="hero-section" id="heroSection">
+      <div class="hero-content">
+        <h1 class="hero-title">🚀 Encontre os Influencers Perfeitos para Sua Marca</h1>
+        <p class="hero-subtitle">Conecte-se com influencers sustentáveis e acompanhe resultados em tempo real</p>
+        <button class="btn btn-hero" onclick="showDemoForm()">📅 Agendar uma DEMO Gratuita</button>
+      </div>
+    </div>
+
+    <!-- Seção de Planos para Empresas -->
+    <div class="plans-section" id="plansSection" style="display: none;">
+      <h2 class="plans-title">Escolha o Plano Ideal para Sua Empresa</h2>
+      <p class="plans-subtitle">Conecte-se com influencers sustentáveis e impulsione suas campanhas</p>
+      
+      <div class="plans-grid">
+        <!-- Plano Básico -->
+        <div class="plan-card">
+          <div class="plan-badge">Básico</div>
+          <div class="plan-icon">🔍</div>
+          <h3 class="plan-name">Plano Básico</h3>
+          <p class="plan-description">Busca simples e contratação direta de influencers</p>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Busca de influencers por nicho</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Filtros por alcance e orçamento</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>ROI estimado por influencer</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Contratação direta</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Suporte por email</span>
+            </div>
+          </div>
+          
+          <button class="btn btn-plan" onclick="window.location.href='checkout-empresa.html?plano=basico'">
+            💳 Contratar Plano Básico
+          </button>
+        </div>
+
+        <!-- Plano Avançado -->
+        <div class="plan-card plan-featured">
+          <div class="plan-badge plan-badge-featured">⭐ Recomendado</div>
+          <div class="plan-icon">📈</div>
+          <h3 class="plan-name">Plano Avançado</h3>
+          <p class="plan-description">Gestão completa com monitoramento em tempo real</p>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span><strong>Tudo do Plano Básico +</strong></span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Criar campanhas com briefing</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Convites automáticos para influencers</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Aprovação de posts antes da publicação</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📉</span>
+              <span><strong>Monitoramento em tempo real</strong></span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📉</span>
+              <span>Métricas e analytics detalhados</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📉</span>
+              <span>Relatórios de performance</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Suporte prioritário 24/7</span>
+            </div>
+          </div>
+          
+          <button class="btn btn-plan btn-plan-featured" onclick="window.location.href='checkout-empresa.html?plano=avancado'">
+            🚀 Contratar Plano Avançado
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulário de DEMO (oculto inicialmente) -->
+    <div class="demo-form-container" id="demoFormContainer" style="display: none;">
+      <div class="demo-form">
+        <h2 class="demo-title">📅 Agende uma DEMO Gratuita</h2>
+        <p class="demo-subtitle">Preencha o formulário e nossa equipe entrará em contato</p>
+        
+        <!-- Alert Box -->
+        <div class="alert-box alert-error" id="alertError">
+          <strong>⚠️ Erro:</strong> <span id="errorText"></span>
+        </div>
+        
+        <form id="demoForm">
+          <div class="form-grid">
+            <div class="form-group form-group-full">
+              <label for="nomeCompleto">Nome Completo *</label>
+              <input type="text" id="nomeCompleto" placeholder="Seu nome completo">
+            </div>
+
+            <div class="form-group">
+              <label for="emailComercial">Email Comercial *</label>
+              <input type="email" id="emailComercial" placeholder="seuemail@empresa.com">
+            </div>
+
+            <div class="form-group">
+              <label for="telefone">Telefone *</label>
+              <input type="tel" id="telefone" placeholder="(11) 98765-4321">
+            </div>
+
+            <div class="form-group form-group-full">
+              <label for="nomeEmpresa">Nome da Empresa *</label>
+              <input type="text" id="nomeEmpresa" placeholder="Nome da sua empresa">
+            </div>
+
+            <div class="form-group">
+              <label for="ferramentaAtual">Atualmente utiliza alguma ferramenta?</label>
+              <select id="ferramentaAtual">
+                <option value="">Selecione...</option>
+                <option value="nao">Não utilizo</option>
+                <option value="planilhas">Planilhas (Excel/Google Sheets)</option>
+                <option value="email">Email manual</option>
+                <option value="outra_plataforma">Outra plataforma de influencers</option>
+                <option value="agencia">Agência de marketing</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="segmento">Qual o segmento da empresa? *</label>
+              <select id="segmento">
+                <option value="">Selecione...</option>
+                <option value="moda">Moda e Vestuário</option>
+                <option value="beleza">Beleza e Cosméticos</option>
+                <option value="alimentacao">Alimentação e Bebidas</option>
+                <option value="tecnologia">Tecnologia</option>
+                <option value="saude">Saúde e Bem-estar</option>
+                <option value="educacao">Educação</option>
+                <option value="varejo">Varejo</option>
+                <option value="servicos">Serviços</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="area">Área da empresa em que trabalha? *</label>
+              <select id="area">
+                <option value="">Selecione...</option>
+                <option value="marketing">Marketing</option>
+                <option value="comercial">Comercial</option>
+                <option value="direcao">Direção/CEO</option>
+                <option value="comunicacao">Comunicação</option>
+                <option value="rh">Recursos Humanos</option>
+                <option value="produto">Produto</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="baseInfluencers">Você já tem uma base de influenciadores?</label>
+              <select id="baseInfluencers">
+                <option value="">Selecione...</option>
+                <option value="nao">Não tenho</option>
+                <option value="pequena">Sim, pequena (até 10)</option>
+                <option value="media">Sim, média (10-50)</option>
+                <option value="grande">Sim, grande (50+)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="hideDemoForm()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Mensagem de Sucesso -->
+    <div class="success-message" id="successMessage">
+      <h3>✅ Solicitação Enviada com Sucesso!</h3>
+      <p>🚀 Nossa equipe entrará em contato em até 24 horas para agendar sua DEMO.</p>
+      <p>Enquanto isso, explore nossa plataforma de busca de influencers abaixo!</p>
+    </div>
+
+    <!-- Seção de Busca (visível após preencher DEMO ou pular) -->
+    <div class="search-section" id="searchSection" style="display: none;">
+      <h1>🔍 Buscar Influencers</h1>
+      <p class="subtitle">Encontre os influencers perfeitos para sua campanha com base em nicho, alcance e ROI estimado</p>
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label for="nicho">Nicho / Categoria</label>
+          <select id="nicho">
+            <option value="">Todos os nichos</option>
+            <option value="moda">Moda Sustentável</option>
+            <option value="zerowaste">Zero Waste</option>
+            <option value="lifestyle">Lifestyle Sustentável</option>
+            <option value="beleza">Beleza Natural</option>
+            <option value="alimentacao">Alimentação Saudável</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="alcance">Alcance Mínimo</label>
+          <select id="alcance">
+            <option value="">Qualquer alcance</option>
+            <option value="nano">Até 50K (Nano)</option>
+            <option value="micro">50K - 200K (Micro)</option>
+            <option value="macro">200K+ (Macro)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="orcamento">Orçamento da Campanha</label>
+          <input type="text" id="orcamento" placeholder="R$ 0,00">
+        </div>
+
+        <div class="filter-group">
+          <label for="localizacao">Localização</label>
+          <select id="localizacao">
+            <option value="">Todas as localizações</option>
+            <option value="sp">São Paulo</option>
+            <option value="rj">Rio de Janeiro</option>
+            <option value="mg">Minas Gerais</option>
+            <option value="pr">Paraná</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="buscarInfluencers()">
+        🔍 Buscar Influencers
+      </button>
+    </div>
+
+    <div class="results-header">
+      <div class="results-count">
+        <strong>12 influencers</strong> encontrados
+      </div>
+    </div>
+
+    <div class="results-grid">
+      <!-- Influencer 1 -->
+      <div class="influencer-card">
+        <div class="card-header">
+          <div class="avatar">GN</div>
+          <div class="card-info">
+            <div class="influencer-name">Giovanna N.</div>
+            <div class="influencer-category">🌱 Moda Sustentável</div>
+            <div class="influencer-location">📍 São Paulo, SP</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">146K</div>
+            <div class="metric-label">Seguidores (Top 3)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">9.1%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">987</div>
+            <div class="metric-label">Posts</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">⭐ 100</div>
+            <div class="metric-label">Ranking</div>
+          </div>
+        </div>
+
+        <div class="roi-section">
+          <div class="roi-label">ROI Estimado</div>
+          <div class="roi-value">R$ 4,20</div>
+          <div class="roi-description">Para cada R$ 1,00 investido</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-outline btn-small" onclick="verPerfil('giovanna')">
+            Ver Perfil Completo
+          </button>
+          <button class="btn btn-primary btn-small" onclick="contratar('giovanna')">
+            Contratar
+          </button>
+        </div>
+      </div>
+
+      <!-- Influencer 2 -->
+      <div class="influencer-card">
+        <div class="card-header">
+          <div class="avatar">CM</div>
+          <div class="card-info">
+            <div class="influencer-name">Cristal M.</div>
+            <div class="influencer-category">♻️ Zero Waste</div>
+            <div class="influencer-location">📍 Rio de Janeiro, RJ</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">260K</div>
+            <div class="metric-label">Seguidores (Top 3)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">8.9%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1.4K</div>
+            <div class="metric-label">Posts</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">⭐ 98.5</div>
+            <div class="metric-label">Ranking</div>
+          </div>
+        </div>
+
+        <div class="roi-section">
+          <div class="roi-label">ROI Estimado</div>
+          <div class="roi-value">R$ 5,80</div>
+          <div class="roi-description">Para cada R$ 1,00 investido</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-outline btn-small" onclick="verPerfil('cristal')">
+            Ver Perfil Completo
+          </button>
+          <button class="btn btn-primary btn-small" onclick="contratar('cristal')">
+            Contratar
+          </button>
+        </div>
+      </div>
+
+      <!-- Influencer 3 -->
+      <div class="influencer-card">
+        <div class="card-header">
+          <div class="avatar">AM</div>
+          <div class="card-info">
+            <div class="influencer-name">Aline M.</div>
+            <div class="influencer-category">🌿 Lifestyle Sustentável</div>
+            <div class="influencer-location">📍 Curitiba, PR</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">143K</div>
+            <div class="metric-label">Seguidores (Top 3)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">10.5%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1.4K</div>
+            <div class="metric-label">Posts</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">⭐ 100</div>
+            <div class="metric-label">Ranking</div>
+          </div>
+        </div>
+
+        <div class="roi-section">
+          <div class="roi-label">ROI Estimado</div>
+          <div class="roi-value">R$ 6,50</div>
+          <div class="roi-description">Para cada R$ 1,00 investido</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-outline btn-small" onclick="verPerfil('aline')">
+            Ver Perfil Completo
+          </button>
+          <button class="btn btn-primary btn-small" onclick="contratar('aline')">
+            Contratar
+          </button>
+        </div>
+      </div>
+    </div>
+    </div> <!-- Fecha search-section -->
+  </div> <!-- Fecha container -->
+
+  <script>
+    // Máscara de moeda para o campo de orçamento
+    const orcamentoInput = document.getElementById('orcamento');
+    if (orcamentoInput) {
+      orcamentoInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value === '') {
+          e.target.value = '';
+          return;
+        }
+        value = (parseInt(value) / 100).toFixed(2);
+        e.target.value = 'R$ ' + value.replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+      });
+    }
+
+    // Máscara de telefone
+    const telefoneInput = document.getElementById('telefone');
+    if (telefoneInput) {
+      telefoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length <= 11) {
+          value = value.replace(/(\d{2})(\d)/, '($1) $2');
+          value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        }
+        e.target.value = value;
+      });
+    }
+
+    // Mostrar formulário de DEMO
+    function showDemoForm() {
+      document.getElementById('heroSection').style.display = 'none';
+      document.getElementById('demoFormContainer').style.display = 'block';
+    }
+
+    // Esconder formulário de DEMO
+    function hideDemoForm() {
+      document.getElementById('heroSection').style.display = 'block';
+      document.getElementById('demoFormContainer').style.display = 'none';
+    }
+
+    // Validação de campo individual
+    function validateField(fieldId, fieldName) {
+      const field = document.getElementById(fieldId);
+      const value = field.value.trim();
+      
+      // Remover classes anteriores
+      field.classList.remove('error', 'success');
+      
+      if (!value) {
+        field.classList.add('error');
+        return false;
+      } else {
+        field.classList.add('success');
+        return true;
+      }
+    }
+
+    // Validação de email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    // Mostrar erro
+    function showError(message) {
+      const alertBox = document.getElementById('alertError');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      alertBox.classList.add('show');
+      
+      // Rolar para o topo do formulário
+      document.getElementById('demoFormContainer').scrollIntoView({ behavior: 'smooth' });
+      
+      // Esconder após 5 segundos
+      setTimeout(() => {
+        alertBox.classList.remove('show');
+      }, 5000);
+    }
+
+    // Submeter formulário de DEMO
+    document.getElementById('demoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Esconder alerta de erro anterior
+      document.getElementById('alertError').classList.remove('show');
+      
+      // Obter valores
+      const nome = document.getElementById('nomeCompleto').value.trim();
+      const email = document.getElementById('emailComercial').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const empresa = document.getElementById('nomeEmpresa').value.trim();
+      const segmento = document.getElementById('segmento').value;
+      const area = document.getElementById('area').value;
+
+      // Validar campos obrigatórios
+      let isValid = true;
+      
+      if (!validateField('nomeCompleto', 'Nome Completo')) {
+        isValid = false;
+        showError('Por favor, preencha seu nome completo.');
+        return;
+      }
+      
+      if (!validateField('emailComercial', 'Email Comercial')) {
+        isValid = false;
+        showError('Por favor, preencha seu email comercial.');
+        return;
+      }
+      
+      if (!validateEmail(email)) {
+        document.getElementById('emailComercial').classList.add('error');
+        showError('Por favor, insira um email válido.');
+        return;
+      }
+      
+      if (!validateField('telefone', 'Telefone')) {
+        isValid = false;
+        showError('Por favor, preencha seu telefone.');
+        return;
+      }
+      
+      if (telefone.replace(/\D/g, '').length < 10) {
+        document.getElementById('telefone').classList.add('error');
+        showError('Por favor, insira um telefone válido com DDD.');
+        return;
+      }
+      
+      if (!validateField('nomeEmpresa', 'Nome da Empresa')) {
+        isValid = false;
+        showError('Por favor, preencha o nome da empresa.');
+        return;
+      }
+      
+      if (!validateField('segmento', 'Segmento')) {
+        isValid = false;
+        showError('Por favor, selecione o segmento da empresa.');
+        return;
+      }
+      
+      if (!validateField('area', 'Área')) {
+        isValid = false;
+        showError('Por favor, selecione sua área de atuação.');
+        return;
+      }
+
+      // Se tudo estiver válido, mostrar sucesso
+      document.getElementById('demoFormContainer').style.display = 'none';
+      document.getElementById('successMessage').classList.add('show');
+      
+      // Mostrar seção de planos
+      document.getElementById('plansSection').style.display = 'block';
+      
+      // Rolar para seção de planos
+      setTimeout(() => {
+        document.getElementById('plansSection').scrollIntoView({ behavior: 'smooth' });
+      }, 1000);
+      
+      // Esconder mensagem de sucesso após 8 segundos
+      setTimeout(() => {
+        document.getElementById('successMessage').classList.remove('show');
+      }, 8000);
+    });
+
+    function buscarInfluencers() {
+      const nicho = document.getElementById('nicho').value;
+      const alcance = document.getElementById('alcance').value;
+      const orcamento = document.getElementById('orcamento').value;
+      const localizacao = document.getElementById('localizacao').value;
+
+      alert(`🔍 Buscando influencers...\n\nNicho: ${nicho || 'Todos'}\nAlcance: ${alcance || 'Qualquer'}\nOrçamento: ${orcamento || 'Não definido'}\nLocalização: ${localizacao || 'Todas'}\n\nEm produção, esta busca seria feita via API com filtros reais.`);
+    }
+
+    function verPerfil(influencer) {
+      alert(`📊 Ver Perfil Completo de ${influencer}\n\nEm produção, você seria redirecionado para uma página com:\n- Dados completos de contato\n- Portfólio\n- Métricas detalhadas\n- Histórico de campanhas`);
+    }
+
+    function contratar(influencer) {
+      alert(`💼 Contratar ${influencer}\n\nEm produção, você seria redirecionado para:\n- Página de pagamento\n- Definir detalhes da campanha\n- Assinar contrato\n\nPor enquanto, esta é apenas uma demonstração.`);
+    }
+  </script>
+</body>
+</html>
