@@ -281,6 +281,128 @@
       color: white;
     }
 
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 20px;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+    }
+
+    .btn-hero {
+      background: white;
+      color: #10b981;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Demo Form */
+    .demo-form-container {
+      margin-bottom: 3rem;
+    }
+
+    .demo-form {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .demo-title {
+      font-size: 2rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .demo-subtitle {
+      color: #4a5568;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      border-color: #10b981;
+      color: #10b981;
+    }
+
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .header {
@@ -328,10 +450,109 @@
   </div>
 
   <div class="container">
-    <h1>🔍 Buscar Influencers</h1>
-    <p class="subtitle">Encontre os influencers perfeitos para sua campanha com base em nicho, alcance e ROI estimado</p>
+    <!-- Hero Section - Agende uma DEMO -->
+    <div class="hero-section" id="heroSection">
+      <div class="hero-content">
+        <h1 class="hero-title">🚀 Encontre os Influencers Perfeitos para Sua Marca</h1>
+        <p class="hero-subtitle">Conecte-se com influencers sustentáveis e acompanhe resultados em tempo real</p>
+        <button class="btn btn-hero" onclick="showDemoForm()">📅 Agendar uma DEMO Gratuita</button>
+      </div>
+    </div>
 
-    <div class="search-section">
+    <!-- Formulário de DEMO (oculto inicialmente) -->
+    <div class="demo-form-container" id="demoFormContainer" style="display: none;">
+      <div class="demo-form">
+        <h2 class="demo-title">📅 Agende uma DEMO Gratuita</h2>
+        <p class="demo-subtitle">Preencha o formulário e nossa equipe entrará em contato</p>
+        
+        <form id="demoForm">
+          <div class="form-grid">
+            <div class="form-group form-group-full">
+              <label for="nomeCompleto">Nome Completo *</label>
+              <input type="text" id="nomeCompleto" placeholder="Seu nome completo">
+            </div>
+
+            <div class="form-group">
+              <label for="emailComercial">Email Comercial *</label>
+              <input type="email" id="emailComercial" placeholder="seuemail@empresa.com">
+            </div>
+
+            <div class="form-group">
+              <label for="telefone">Telefone *</label>
+              <input type="tel" id="telefone" placeholder="(11) 98765-4321">
+            </div>
+
+            <div class="form-group form-group-full">
+              <label for="nomeEmpresa">Nome da Empresa *</label>
+              <input type="text" id="nomeEmpresa" placeholder="Nome da sua empresa">
+            </div>
+
+            <div class="form-group">
+              <label for="ferramentaAtual">Atualmente utiliza alguma ferramenta?</label>
+              <select id="ferramentaAtual">
+                <option value="">Selecione...</option>
+                <option value="nao">Não utilizo</option>
+                <option value="planilhas">Planilhas (Excel/Google Sheets)</option>
+                <option value="email">Email manual</option>
+                <option value="outra_plataforma">Outra plataforma de influencers</option>
+                <option value="agencia">Agência de marketing</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="segmento">Qual o segmento da empresa? *</label>
+              <select id="segmento">
+                <option value="">Selecione...</option>
+                <option value="moda">Moda e Vestuário</option>
+                <option value="beleza">Beleza e Cosméticos</option>
+                <option value="alimentacao">Alimentação e Bebidas</option>
+                <option value="tecnologia">Tecnologia</option>
+                <option value="saude">Saúde e Bem-estar</option>
+                <option value="educacao">Educação</option>
+                <option value="varejo">Varejo</option>
+                <option value="servicos">Serviços</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="area">Área da empresa em que trabalha? *</label>
+              <select id="area">
+                <option value="">Selecione...</option>
+                <option value="marketing">Marketing</option>
+                <option value="comercial">Comercial</option>
+                <option value="direcao">Direção/CEO</option>
+                <option value="comunicacao">Comunicação</option>
+                <option value="rh">Recursos Humanos</option>
+                <option value="produto">Produto</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="baseInfluencers">Você já tem uma base de influenciadores?</label>
+              <select id="baseInfluencers">
+                <option value="">Selecione...</option>
+                <option value="nao">Não tenho</option>
+                <option value="pequena">Sim, pequena (até 10)</option>
+                <option value="media">Sim, média (10-50)</option>
+                <option value="grande">Sim, grande (50+)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="hideDemoForm()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Seção de Busca (visível após preencher DEMO ou pular) -->
+    <div class="search-section" id="searchSection" style="display: none;">
+      <h1>🔍 Buscar Influencers</h1>
+      <p class="subtitle">Encontre os influencers perfeitos para sua campanha com base em nicho, alcance e ROI estimado</p>
       <div class="filters-grid">
         <div class="filter-group">
           <label for="nicho">Nicho / Categoria</label>
@@ -357,7 +578,7 @@
 
         <div class="filter-group">
           <label for="orcamento">Orçamento da Campanha</label>
-          <input type="number" id="orcamento" placeholder="Ex: 5000" min="0">
+          <input type="text" id="orcamento" placeholder="R$ 0,00">
         </div>
 
         <div class="filter-group">
@@ -522,16 +743,79 @@
         </div>
       </div>
     </div>
-  </div>
+    </div> <!-- Fecha search-section -->
+  </div> <!-- Fecha container -->
 
   <script>
+    // Máscara de moeda para o campo de orçamento
+    const orcamentoInput = document.getElementById('orcamento');
+    if (orcamentoInput) {
+      orcamentoInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value === '') {
+          e.target.value = '';
+          return;
+        }
+        value = (parseInt(value) / 100).toFixed(2);
+        e.target.value = 'R$ ' + value.replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+      });
+    }
+
+    // Máscara de telefone
+    const telefoneInput = document.getElementById('telefone');
+    if (telefoneInput) {
+      telefoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length <= 11) {
+          value = value.replace(/(\d{2})(\d)/, '($1) $2');
+          value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        }
+        e.target.value = value;
+      });
+    }
+
+    // Mostrar formulário de DEMO
+    function showDemoForm() {
+      document.getElementById('heroSection').style.display = 'none';
+      document.getElementById('demoFormContainer').style.display = 'block';
+    }
+
+    // Esconder formulário de DEMO
+    function hideDemoForm() {
+      document.getElementById('heroSection').style.display = 'block';
+      document.getElementById('demoFormContainer').style.display = 'none';
+    }
+
+    // Submeter formulário de DEMO
+    document.getElementById('demoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const nome = document.getElementById('nomeCompleto').value;
+      const email = document.getElementById('emailComercial').value;
+      const telefone = document.getElementById('telefone').value;
+      const empresa = document.getElementById('nomeEmpresa').value;
+      const segmento = document.getElementById('segmento').value;
+      const area = document.getElementById('area').value;
+
+      if (!nome || !email || !telefone || !empresa || !segmento || !area) {
+        alert('⚠️ Por favor, preencha todos os campos obrigatórios (*)');
+        return;
+      }
+
+      alert(`✅ Solicitação de DEMO enviada com sucesso!\n\nNome: ${nome}\nEmail: ${email}\nEmpresa: ${empresa}\n\n🚀 Nossa equipe entrará em contato em até 24 horas!\n\nAgora você pode explorar a busca de influencers.`);
+      
+      // Mostrar seção de busca
+      document.getElementById('demoFormContainer').style.display = 'none';
+      document.getElementById('searchSection').style.display = 'block';
+    });
+
     function buscarInfluencers() {
       const nicho = document.getElementById('nicho').value;
       const alcance = document.getElementById('alcance').value;
       const orcamento = document.getElementById('orcamento').value;
       const localizacao = document.getElementById('localizacao').value;
 
-      alert(`🔍 Buscando influencers...\n\nNicho: ${nicho || 'Todos'}\nAlcance: ${alcance || 'Qualquer'}\nOrçamento: R$ ${orcamento || 'Não definido'}\nLocalização: ${localizacao || 'Todas'}\n\nEm produção, esta busca seria feita via API com filtros reais.`);
+      alert(`🔍 Buscando influencers...\n\nNicho: ${nicho || 'Todos'}\nAlcance: ${alcance || 'Qualquer'}\nOrçamento: ${orcamento || 'Não definido'}\nLocalização: ${localizacao || 'Todas'}\n\nEm produção, esta busca seria feita via API com filtros reais.`);
     }
 
     function verPerfil(influencer) {
