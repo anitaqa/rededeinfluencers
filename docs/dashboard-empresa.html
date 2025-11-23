@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Empresa - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="LOGORI.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #4a5568;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #10b981;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #4a5568;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #4a5568;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2rem 0 1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .campaigns-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .campaign-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .campaign-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .campaign-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .campaign-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+
+    .campaign-meta {
+      color: #4a5568;
+      font-size: 0.9rem;
+    }
+
+    .status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-completed {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .campaign-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 12px;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a202c;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: #4a5568;
+      margin-top: 0.25rem;
+    }
+
+    .campaign-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #10b981;
+      border: 2px solid #10b981;
+    }
+
+    .btn-outline:hover {
+      background: #10b981;
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .empty-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-text {
+      color: #4a5568;
+      margin-bottom: 2rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .campaign-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .campaign-metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .campaign-actions {
+        flex-direction: column;
+      }
+
+      .btn-small {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
+    <nav class="nav-links">
+      <a href="buscar-influencers.html">Buscar Influencers</a>
+      <a href="criar-campanha.html">Criar Campanha</a>
+      <a href="dashboard-empresa.html">Minhas Campanhas</a>
+      <a href="index.html">Sair</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <h1>📊 Dashboard da Empresa</h1>
+    <p class="subtitle">Gerencie suas campanhas e acompanhe resultados em tempo real</p>
+
+    <!-- Estatísticas Gerais -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-label">Campanhas Ativas</div>
+        <div class="stat-value">3</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-label">Influencers Contratados</div>
+        <div class="stat-value">12</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📈</div>
+        <div class="stat-label">Alcance Total</div>
+        <div class="stat-value">1.2M</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-label">Investimento Total</div>
+        <div class="stat-value">R$ 45K</div>
+      </div>
+    </div>
+
+    <!-- Campanhas -->
+    <div class="section-header">
+      <div class="section-title">Minhas Campanhas</div>
+      <a href="criar-campanha.html" class="btn btn-primary">+ Nova Campanha</a>
+    </div>
+
+    <div class="campaigns-grid">
+      <!-- Campanha 1 - Ativa -->
+      <div class="campaign-card">
+        <div class="campaign-header">
+          <div>
+            <div class="campaign-title">🌱 Lançamento Coleção Verão 2024</div>
+            <div class="campaign-meta">Moda Sustentável • Criada em 15/11/2024</div>
+          </div>
+          <span class="status-badge status-active">✓ Ativa</span>
+        </div>
+
+        <div class="campaign-metrics">
+          <div class="metric">
+            <div class="metric-value">5</div>
+            <div class="metric-label">Influencers</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">487K</div>
+            <div class="metric-label">Alcance</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">8.7%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">R$ 15K</div>
+            <div class="metric-label">Investido</div>
+          </div>
+        </div>
+
+        <div class="campaign-actions">
+          <a href="metricas-campanha.html?id=1" class="btn btn-primary btn-small">
+            📊 Ver Métricas em Tempo Real
+          </a>
+          <button class="btn btn-outline btn-small" onclick="gerenciarCampanha(1)">
+            ⚙️ Gerenciar
+          </button>
+        </div>
+      </div>
+
+      <!-- Campanha 2 - Aguardando Aprovação -->
+      <div class="campaign-card">
+        <div class="campaign-header">
+          <div>
+            <div class="campaign-title">♻️ Campanha Zero Waste</div>
+            <div class="campaign-meta">Zero Waste • Criada em 18/11/2024</div>
+          </div>
+          <span class="status-badge status-pending">⏳ Aguardando Aprovação</span>
+        </div>
+
+        <div class="campaign-metrics">
+          <div class="metric">
+            <div class="metric-value">4/7</div>
+            <div class="metric-label">Posts Aprovados</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">320K</div>
+            <div class="metric-label">Alcance Estimado</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">-</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">R$ 12K</div>
+            <div class="metric-label">Orçamento</div>
+          </div>
+        </div>
+
+        <div class="campaign-actions">
+          <button class="btn btn-primary btn-small" onclick="aprovarPosts(2)">
+            ✓ Aprovar Posts Pendentes (3)
+          </button>
+          <button class="btn btn-outline btn-small" onclick="gerenciarCampanha(2)">
+            ⚙️ Gerenciar
+          </button>
+        </div>
+      </div>
+
+      <!-- Campanha 3 - Concluída -->
+      <div class="campaign-card">
+        <div class="campaign-header">
+          <div>
+            <div class="campaign-title">🌿 Black Friday Sustentável</div>
+            <div class="campaign-meta">Lifestyle Sustentável • Criada em 01/11/2024</div>
+          </div>
+          <span class="status-badge status-completed">✓ Concluída</span>
+        </div>
+
+        <div class="campaign-metrics">
+          <div class="metric">
+            <div class="metric-value">8</div>
+            <div class="metric-label">Influencers</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">892K</div>
+            <div class="metric-label">Alcance</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">9.2%</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">R$ 18K</div>
+            <div class="metric-label">Investido</div>
+          </div>
+        </div>
+
+        <div class="campaign-actions">
+          <a href="metricas-campanha.html?id=3" class="btn btn-outline btn-small">
+            📊 Ver Relatório Final
+          </a>
+          <button class="btn btn-outline btn-small" onclick="baixarRelatorio(3)">
+            📥 Baixar Relatório
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function gerenciarCampanha(id) {
+      alert(`⚙️ Gerenciar Campanha #${id}\n\nEm produção, você seria redirecionado para:\n- Editar briefing\n- Adicionar/remover influencers\n- Pausar/reativar campanha\n- Configurações avançadas`);
+    }
+
+    function aprovarPosts(id) {
+      alert(`✓ Aprovar Posts da Campanha #${id}\n\nEm produção, você veria:\n- Lista de posts pendentes de aprovação\n- Preview de cada post\n- Opção de aprovar ou solicitar alterações\n- Chat com influencer para feedback`);
+    }
+
+    function baixarRelatorio(id) {
+      alert(`📥 Baixar Relatório da Campanha #${id}\n\nEm produção, seria gerado um PDF com:\n- Métricas completas\n- Gráficos de performance\n- ROI detalhado\n- Lista de influencers e resultados individuais`);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Métricas em Tempo Real - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="LOGORI.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #4a5568;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #10b981;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      transform: translateX(-5px);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #4a5568;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .metric-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-label {
+      color: #4a5568;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-change {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .metric-change.positive {
+      color: #10b981;
+    }
+
+    .metric-change.negative {
+      color: #ef4444;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 2rem 0 1rem;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .chart-placeholder {
+      height: 300px;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4a5568;
+      font-size: 1.1rem;
+    }
+
+    .influencers-table {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 1rem;
+      border-bottom: 2px solid #e2e8f0;
+      color: #4a5568;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tr:hover {
+      background: #f7fafc;
+    }
+
+    .influencer-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .influencer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .influencer-name {
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .performance-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .performance-excellent {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .performance-good {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .performance-average {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #10b981;
+      border: 2px solid #10b981;
+    }
+
+    .btn-outline:hover {
+      background: #10b981;
+      color: white;
+    }
+
+    .actions-bar {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-value {
+        font-size: 2rem;
+      }
+
+      .influencers-table {
+        overflow-x: scroll;
+      }
+
+      table {
+        min-width: 600px;
+      }
+
+      .actions-bar {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
+    <nav class="nav-links">
+      <a href="buscar-influencers.html">Buscar Influencers</a>
+      <a href="criar-campanha.html">Criar Campanha</a>
+      <a href="dashboard-empresa.html">Minhas Campanhas</a>
+      <a href="index.html">Sair</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <a href="dashboard-empresa.html" class="back-link">← Voltar para Dashboard</a>
+
+    <h1>📊 Métricas em Tempo Real</h1>
+    <p class="subtitle">Lançamento Coleção Verão 2024</p>
+    
+    <div class="live-indicator">
+      <div class="live-dot"></div>
+      Atualização em tempo real
+    </div>
+
+    <!-- Métricas Principais -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon">👁️</div>
+        <div class="metric-label">Alcance Total</div>
+        <div class="metric-value">487K</div>
+        <div class="metric-change positive">↑ +12.5% hoje</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">❤️</div>
+        <div class="metric-label">Engajamento</div>
+        <div class="metric-value">8.7%</div>
+        <div class="metric-change positive">↑ +2.3% hoje</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">💬</div>
+        <div class="metric-label">Interações</div>
+        <div class="metric-value">42.3K</div>
+        <div class="metric-change positive">↑ +18.2% hoje</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">💰</div>
+        <div class="metric-label">ROI</div>
+        <div class="metric-value">R$ 5.20</div>
+        <div class="metric-change positive">Por cada R$ 1 investido</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">📱</div>
+        <div class="metric-label">Posts Publicados</div>
+        <div class="metric-value">15</div>
+        <div class="metric-change">de 15 planejados</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">🔗</div>
+        <div class="metric-label">Cliques no Link</div>
+        <div class="metric-value">3.2K</div>
+        <div class="metric-change positive">↑ +25.8% hoje</div>
+      </div>
+    </div>
+
+    <!-- Gráfico de Alcance -->
+    <div class="section-title">📈 Evolução do Alcance</div>
+    <div class="chart-container">
+      <div class="chart-placeholder">
+        📊 Gráfico de linha mostrando evolução do alcance ao longo do tempo<br>
+        (Em produção, seria um gráfico interativo com Chart.js ou similar)
+      </div>
+    </div>
+
+    <!-- Gráfico de Engajamento -->
+    <div class="section-title">💬 Distribuição do Engajamento</div>
+    <div class="chart-container">
+      <div class="chart-placeholder">
+        📊 Gráfico de pizza mostrando: Curtidas (60%), Comentários (25%), Compartilhamentos (10%), Salvos (5%)<br>
+        (Em produção, seria um gráfico interativo com Chart.js ou similar)
+      </div>
+    </div>
+
+    <!-- Performance por Influencer -->
+    <div class="section-title">👥 Performance por Influencer</div>
+    <div class="influencers-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Influencer</th>
+            <th>Posts</th>
+            <th>Alcance</th>
+            <th>Engajamento</th>
+            <th>Interações</th>
+            <th>Performance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="influencer-info">
+                <div class="influencer-avatar">GN</div>
+                <div class="influencer-name">Giovanna N.</div>
+              </div>
+            </td>
+            <td>3</td>
+            <td>146K</td>
+            <td>9.1%</td>
+            <td>13.3K</td>
+            <td><span class="performance-badge performance-excellent">Excelente</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="influencer-info">
+                <div class="influencer-avatar">CM</div>
+                <div class="influencer-name">Cristal M.</div>
+              </div>
+            </td>
+            <td>3</td>
+            <td>260K</td>
+            <td>8.9%</td>
+            <td>23.1K</td>
+            <td><span class="performance-badge performance-excellent">Excelente</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="influencer-info">
+                <div class="influencer-avatar">AM</div>
+                <div class="influencer-name">Aline M.</div>
+              </div>
+            </td>
+            <td>3</td>
+            <td>143K</td>
+            <td>10.5%</td>
+            <td>15.0K</td>
+            <td><span class="performance-badge performance-excellent">Excelente</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="influencer-info">
+                <div class="influencer-avatar">JR</div>
+                <div class="influencer-name">Julia R.</div>
+              </div>
+            </td>
+            <td>3</td>
+            <td>89K</td>
+            <td>7.2%</td>
+            <td>6.4K</td>
+            <td><span class="performance-badge performance-good">Bom</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="influencer-info">
+                <div class="influencer-avatar">LS</div>
+                <div class="influencer-name">Lucas S.</div>
+              </div>
+            </td>
+            <td>3</td>
+            <td>52K</td>
+            <td>6.8%</td>
+            <td>3.5K</td>
+            <td><span class="performance-badge performance-average">Médio</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ações -->
+    <div class="actions-bar">
+      <button class="btn btn-primary" onclick="exportarRelatorio()">
+        📥 Exportar Relatório PDF
+      </button>
+      <button class="btn btn-outline" onclick="compartilharMetricas()">
+        📤 Compartilhar Métricas
+      </button>
+      <button class="btn btn-outline" onclick="configurarAlertas()">
+        🔔 Configurar Alertas
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Simular atualização em tempo real
+    setInterval(() => {
+      // Em produção, isso faria uma chamada à API para buscar dados atualizados
+      console.log('Atualizando métricas...');
+    }, 30000); // A cada 30 segundos
+
+    function exportarRelatorio() {
+      alert('📥 Exportar Relatório\n\nEm produção, seria gerado um PDF completo com:\n- Todas as métricas\n- Gráficos detalhados\n- Performance individual de cada influencer\n- Análise de ROI\n- Recomendações');
+    }
+
+    function compartilharMetricas() {
+      alert('📤 Compartilhar Métricas\n\nEm produção, você poderia:\n- Gerar link público de visualização\n- Enviar por email para stakeholders\n- Exportar para Google Sheets\n- Integrar com ferramentas de BI');
+    }
+
+    function configurarAlertas() {
+      alert('🔔 Configurar Alertas\n\nEm produção, você poderia configurar:\n- Alerta quando alcance atingir X\n- Alerta quando engajamento cair abaixo de Y%\n- Alerta diário com resumo\n- Notificações push no celular');
+    }
+  </script>
+</body>
+</html>
