@@ -464,6 +464,142 @@
       }
     }
 
+    /* Plans Section */
+    .plans-section {
+      margin: 3rem 0;
+      padding: 2rem 0;
+    }
+
+    .plans-title {
+      font-size: 2rem;
+      color: #1a202c;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .plans-subtitle {
+      text-align: center;
+      color: #4a5568;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 3px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .plan-featured {
+      border-color: #10b981;
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);
+    }
+
+    .plan-featured:hover {
+      box-shadow: 0 15px 50px rgba(16, 185, 129, 0.3);
+    }
+
+    .plan-badge {
+      background: #e2e8f0;
+      color: #4a5568;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .plan-badge-featured {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .plan-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .plan-name {
+      font-size: 1.75rem;
+      color: #1a202c;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .plan-description {
+      text-align: center;
+      color: #4a5568;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .plan-features {
+      margin-bottom: 2rem;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      color: #2d3748;
+    }
+
+    .feature-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .btn-plan {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-plan:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-plan-featured {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    }
+
+    .btn-plan-featured:hover {
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.5);
+    }
+
     /* Alert Box */
     .alert-box {
       padding: 1rem;
@@ -541,6 +677,96 @@
         <h1 class="hero-title">🚀 Encontre os Influencers Perfeitos para Sua Marca</h1>
         <p class="hero-subtitle">Conecte-se com influencers sustentáveis e acompanhe resultados em tempo real</p>
         <button class="btn btn-hero" onclick="showDemoForm()">📅 Agendar uma DEMO Gratuita</button>
+      </div>
+    </div>
+
+    <!-- Seção de Planos para Empresas -->
+    <div class="plans-section" id="plansSection">
+      <h2 class="plans-title">Escolha o Plano Ideal para Sua Empresa</h2>
+      <p class="plans-subtitle">Conecte-se com influencers sustentáveis e impulsione suas campanhas</p>
+      
+      <div class="plans-grid">
+        <!-- Plano Básico -->
+        <div class="plan-card">
+          <div class="plan-badge">Básico</div>
+          <div class="plan-icon">🔍</div>
+          <h3 class="plan-name">Plano Básico</h3>
+          <p class="plan-description">Busca simples e contratação direta de influencers</p>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Busca de influencers por nicho</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Filtros por alcance e orçamento</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>ROI estimado por influencer</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Contratação direta</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span>Suporte por email</span>
+            </div>
+          </div>
+          
+          <button class="btn btn-plan" onclick="window.location.href='pagamento-empresa.html?plano=basico'">
+            💳 Contratar Plano Básico
+          </button>
+        </div>
+
+        <!-- Plano Avançado -->
+        <div class="plan-card plan-featured">
+          <div class="plan-badge plan-badge-featured">⭐ Recomendado</div>
+          <div class="plan-icon">📈</div>
+          <h3 class="plan-name">Plano Avançado</h3>
+          <p class="plan-description">Gestão completa com monitoramento em tempo real</p>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✅</span>
+              <span><strong>Tudo do Plano Básico +</strong></span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Criar campanhas com briefing</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Convites automáticos para influencers</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Aprovação de posts antes da publicação</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📉</span>
+              <span><strong>Monitoramento em tempo real</strong></span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📉</span>
+              <span>Métricas e analytics detalhados</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📉</span>
+              <span>Relatórios de performance</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✨</span>
+              <span>Suporte prioritário 24/7</span>
+            </div>
+          </div>
+          
+          <button class="btn btn-plan btn-plan-featured" onclick="window.location.href='pagamento-empresa.html?plano=avancado'">
+            🚀 Contratar Plano Avançado
+          </button>
+        </div>
       </div>
     </div>
 

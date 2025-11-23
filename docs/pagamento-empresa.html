@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento - Rede de Influencers</title>
+  <link rel="icon" type="image/png" href="LOGORI.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+      color: #1a202c;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .logo {
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .payment-card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .plan-summary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .plan-summary h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-summary p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .plan-price {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 1rem 0;
+    }
+
+    .plan-price small {
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section h3 {
+      font-size: 1.5rem;
+      color: #10b981;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .payment-method {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .payment-method:hover {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .payment-method.selected {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .payment-method-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .payment-method-name {
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .security-note {
+      background: #f0fdf4;
+      border: 2px solid #10b981;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .security-note-icon {
+      font-size: 2rem;
+    }
+
+    .security-note-text {
+      color: #065f46;
+      font-size: 0.95rem;
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      flex: 1;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: #4a5568;
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-back:hover {
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    .btn-pay {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-pay:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .payment-card {
+        padding: 1.5rem;
+      }
+
+      .plan-price {
+        font-size: 2rem;
+      }
+
+      .btn-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="LOGORI.png" alt="Rede de Influencers" class="logo">
+    </div>
+
+    <div class="payment-card">
+      <div class="plan-summary" id="planSummary">
+        <h2 id="planName">Plano Básico</h2>
+        <p id="planDescription">Busca simples e contratação direta de influencers</p>
+        <div class="plan-price">
+          <span id="planPrice">R$ 299</span>
+          <small>/mês</small>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>💳 Método de Pagamento</h3>
+        <div class="payment-methods">
+          <div class="payment-method selected" onclick="selectPaymentMethod('credit')">
+            <div class="payment-method-icon">💳</div>
+            <div class="payment-method-name">Cartão de Crédito</div>
+          </div>
+          <div class="payment-method" onclick="selectPaymentMethod('pix')">
+            <div class="payment-method-icon">📱</div>
+            <div class="payment-method-name">PIX</div>
+          </div>
+          <div class="payment-method" onclick="selectPaymentMethod('boleto')">
+            <div class="payment-method-icon">🧾</div>
+            <div class="payment-method-name">Boleto</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section" id="creditCardForm">
+        <h3>💳 Dados do Cartão</h3>
+        <div class="form-grid">
+          <div class="form-group form-group-full">
+            <label for="cardNumber">Número do Cartão *</label>
+            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+          </div>
+          <div class="form-group">
+            <label for="cardName">Nome no Cartão *</label>
+            <input type="text" id="cardName" placeholder="Como está no cartão">
+          </div>
+          <div class="form-group">
+            <label for="cardExpiry">Validade *</label>
+            <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5">
+          </div>
+          <div class="form-group">
+            <label for="cardCVV">CVV *</label>
+            <input type="text" id="cardCVV" placeholder="123" maxlength="4">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>🏢 Dados de Faturamento</h3>
+        <div class="form-grid">
+          <div class="form-group form-group-full">
+            <label for="companyName">Nome da Empresa *</label>
+            <input type="text" id="companyName" placeholder="Razão social">
+          </div>
+          <div class="form-group">
+            <label for="cnpj">CNPJ *</label>
+            <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+          </div>
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="contato@empresa.com">
+          </div>
+        </div>
+      </div>
+
+      <div class="security-note">
+        <div class="security-note-icon">🔒</div>
+        <div class="security-note-text">
+          <strong>Pagamento 100% Seguro</strong><br>
+          Seus dados são protegidos com criptografia de ponta a ponta. Processamento via Stripe.
+        </div>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn btn-back" onclick="window.history.back()">
+          ← Voltar
+        </button>
+        <button class="btn btn-pay" onclick="processPayment()">
+          Finalizar Pagamento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Detectar plano pela URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const plano = urlParams.get('plano');
+
+    const planos = {
+      basico: {
+        nome: 'Plano Básico',
+        descricao: 'Busca simples e contratação direta de influencers',
+        preco: 'R$ 299'
+      },
+      avancado: {
+        nome: 'Plano Avançado',
+        descricao: 'Gestão completa com monitoramento em tempo real',
+        preco: 'R$ 799'
+      }
+    };
+
+    // Atualizar informações do plano
+    if (plano && planos[plano]) {
+      document.getElementById('planName').textContent = planos[plano].nome;
+      document.getElementById('planDescription').textContent = planos[plano].descricao;
+      document.getElementById('planPrice').textContent = planos[plano].preco;
+    }
+
+    // Máscara de cartão de crédito
+    const cardNumberInput = document.getElementById('cardNumber');
+    cardNumberInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+      e.target.value = value;
+    });
+
+    // Máscara de validade
+    const cardExpiryInput = document.getElementById('cardExpiry');
+    cardExpiryInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // Máscara de CNPJ
+    const cnpjInput = document.getElementById('cnpj');
+    cnpjInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+      value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+      value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+      value = value.replace(/(\d{4})(\d)/, '$1-$2');
+      e.target.value = value;
+    });
+
+    // Selecionar método de pagamento
+    let selectedMethod = 'credit';
+    function selectPaymentMethod(method) {
+      selectedMethod = method;
+      document.querySelectorAll('.payment-method').forEach(el => {
+        el.classList.remove('selected');
+      });
+      event.target.closest('.payment-method').classList.add('selected');
+
+      // Mostrar/esconder formulário de cartão
+      const creditCardForm = document.getElementById('creditCardForm');
+      if (method === 'credit') {
+        creditCardForm.style.display = 'block';
+      } else {
+        creditCardForm.style.display = 'none';
+      }
+    }
+
+    // Processar pagamento
+    function processPayment() {
+      const planoNome = document.getElementById('planName').textContent;
+      const planoPreco = document.getElementById('planPrice').textContent;
+      
+      alert(`✅ Pagamento Processado com Sucesso!\n\nPlano: ${planoNome}\nValor: ${planoPreco}/mês\nMétodo: ${selectedMethod === 'credit' ? 'Cartão de Crédito' : selectedMethod === 'pix' ? 'PIX' : 'Boleto'}\n\n🎉 Bem-vindo à Rede de Influencers!\n\nVocê receberá um email com os próximos passos.`);
+      
+      // Redirecionar para dashboard
+      setTimeout(() => {
+        window.location.href = 'dashboard-empresa.html';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
