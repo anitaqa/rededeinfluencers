@@ -835,11 +835,11 @@
       
       // Mostrar mensagem final
       setTimeout(() => {
-        document.getElementById('successMessage').textContent = '🎉 Cadastro realizado! Redirecionando...';
+        document.getElementById('successMessage').textContent = '🎉 Cadastro realizado! Redirecionando para seu dashboard...';
         
-        // Redirecionar para página de planos após 1 segundo
+        // Redirecionar para dashboard após 1 segundo
         setTimeout(() => {
-          window.location.href = 'planos-influencer.html';
+          window.location.href = 'dashboard-influencer.html';
         }, 1000);
       }, 1000);
     });
