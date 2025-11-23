@@ -403,6 +403,91 @@
       color: #10b981;
     }
 
+    /* Validação de Campos */
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    .form-group input.success,
+    .form-group select.success {
+      border-color: #10b981;
+      background-color: #f0fdf4;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    /* Mensagem de Sucesso */
+    .success-message {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 2rem;
+      display: none;
+      animation: slideDown 0.5s ease;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .success-message h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-message p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Alert Box */
+    .alert-box {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .alert-box.show {
+      display: block;
+    }
+
+    .alert-error {
+      background-color: #fef2f2;
+      border: 2px solid #ef4444;
+      color: #991b1b;
+    }
+
+    .alert-success {
+      background-color: #f0fdf4;
+      border: 2px solid #10b981;
+      color: #065f46;
+    }
+
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .header {
@@ -464,6 +549,11 @@
       <div class="demo-form">
         <h2 class="demo-title">📅 Agende uma DEMO Gratuita</h2>
         <p class="demo-subtitle">Preencha o formulário e nossa equipe entrará em contato</p>
+        
+        <!-- Alert Box -->
+        <div class="alert-box alert-error" id="alertError">
+          <strong>⚠️ Erro:</strong> <span id="errorText"></span>
+        </div>
         
         <form id="demoForm">
           <div class="form-grid">
@@ -547,6 +637,13 @@
           </div>
         </form>
       </div>
+    </div>
+
+    <!-- Mensagem de Sucesso -->
+    <div class="success-message" id="successMessage">
+      <h3>✅ Solicitação Enviada com Sucesso!</h3>
+      <p>🚀 Nossa equipe entrará em contato em até 24 horas para agendar sua DEMO.</p>
+      <p>Enquanto isso, explore nossa plataforma de busca de influencers abaixo!</p>
     </div>
 
     <!-- Seção de Busca (visível após preencher DEMO ou pular) -->
@@ -786,27 +883,123 @@
       document.getElementById('demoFormContainer').style.display = 'none';
     }
 
+    // Validação de campo individual
+    function validateField(fieldId, fieldName) {
+      const field = document.getElementById(fieldId);
+      const value = field.value.trim();
+      
+      // Remover classes anteriores
+      field.classList.remove('error', 'success');
+      
+      if (!value) {
+        field.classList.add('error');
+        return false;
+      } else {
+        field.classList.add('success');
+        return true;
+      }
+    }
+
+    // Validação de email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    // Mostrar erro
+    function showError(message) {
+      const alertBox = document.getElementById('alertError');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      alertBox.classList.add('show');
+      
+      // Rolar para o topo do formulário
+      document.getElementById('demoFormContainer').scrollIntoView({ behavior: 'smooth' });
+      
+      // Esconder após 5 segundos
+      setTimeout(() => {
+        alertBox.classList.remove('show');
+      }, 5000);
+    }
+
     // Submeter formulário de DEMO
     document.getElementById('demoForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      const nome = document.getElementById('nomeCompleto').value;
-      const email = document.getElementById('emailComercial').value;
-      const telefone = document.getElementById('telefone').value;
-      const empresa = document.getElementById('nomeEmpresa').value;
+      // Esconder alerta de erro anterior
+      document.getElementById('alertError').classList.remove('show');
+      
+      // Obter valores
+      const nome = document.getElementById('nomeCompleto').value.trim();
+      const email = document.getElementById('emailComercial').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const empresa = document.getElementById('nomeEmpresa').value.trim();
       const segmento = document.getElementById('segmento').value;
       const area = document.getElementById('area').value;
 
-      if (!nome || !email || !telefone || !empresa || !segmento || !area) {
-        alert('⚠️ Por favor, preencha todos os campos obrigatórios (*)');
+      // Validar campos obrigatórios
+      let isValid = true;
+      
+      if (!validateField('nomeCompleto', 'Nome Completo')) {
+        isValid = false;
+        showError('Por favor, preencha seu nome completo.');
+        return;
+      }
+      
+      if (!validateField('emailComercial', 'Email Comercial')) {
+        isValid = false;
+        showError('Por favor, preencha seu email comercial.');
+        return;
+      }
+      
+      if (!validateEmail(email)) {
+        document.getElementById('emailComercial').classList.add('error');
+        showError('Por favor, insira um email válido.');
+        return;
+      }
+      
+      if (!validateField('telefone', 'Telefone')) {
+        isValid = false;
+        showError('Por favor, preencha seu telefone.');
+        return;
+      }
+      
+      if (telefone.replace(/\D/g, '').length < 10) {
+        document.getElementById('telefone').classList.add('error');
+        showError('Por favor, insira um telefone válido com DDD.');
+        return;
+      }
+      
+      if (!validateField('nomeEmpresa', 'Nome da Empresa')) {
+        isValid = false;
+        showError('Por favor, preencha o nome da empresa.');
+        return;
+      }
+      
+      if (!validateField('segmento', 'Segmento')) {
+        isValid = false;
+        showError('Por favor, selecione o segmento da empresa.');
+        return;
+      }
+      
+      if (!validateField('area', 'Área')) {
+        isValid = false;
+        showError('Por favor, selecione sua área de atuação.');
         return;
       }
 
-      alert(`✅ Solicitação de DEMO enviada com sucesso!\n\nNome: ${nome}\nEmail: ${email}\nEmpresa: ${empresa}\n\n🚀 Nossa equipe entrará em contato em até 24 horas!\n\nAgora você pode explorar a busca de influencers.`);
-      
-      // Mostrar seção de busca
+      // Se tudo estiver válido, mostrar sucesso
       document.getElementById('demoFormContainer').style.display = 'none';
+      document.getElementById('successMessage').classList.add('show');
       document.getElementById('searchSection').style.display = 'block';
+      
+      // Rolar para mensagem de sucesso
+      document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+      
+      // Esconder mensagem de sucesso após 8 segundos
+      setTimeout(() => {
+        document.getElementById('successMessage').classList.remove('show');
+      }, 8000);
     });
 
     function buscarInfluencers() {
