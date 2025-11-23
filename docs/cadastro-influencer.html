@@ -833,14 +833,23 @@
       // Ocultar mensagem de erro
       document.getElementById('errorMessage').style.display = 'none';
       
-      // Mostrar mensagem final
+      // Mostrar mensagem final e redirecionar baseado no Instagram
       setTimeout(() => {
-        document.getElementById('successMessage').textContent = '🎉 Cadastro realizado! Redirecionando para seu dashboard...';
-        
-        // Redirecionar para dashboard após 1 segundo
-        setTimeout(() => {
-          window.location.href = 'dashboard-influencer.html';
-        }, 1000);
+        // Se preencheu Instagram, vai para dashboard (simulação completa)
+        // Senão, vai para planos (fluxo de pagamento)
+        if (instagramUsername) {
+          document.getElementById('successMessage').textContent = '🎉 Cadastro realizado! Redirecionando para seu dashboard...';
+          
+          setTimeout(() => {
+            window.location.href = 'dashboard-influencer.html';
+          }, 1000);
+        } else {
+          document.getElementById('successMessage').textContent = '🎉 Cadastro realizado! Escolha seu plano...';
+          
+          setTimeout(() => {
+            window.location.href = 'planos-influencer.html';
+          }, 1000);
+        }
       }, 1000);
     });
     
